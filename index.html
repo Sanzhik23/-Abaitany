@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>АБАЙ ӘЛЕМІ</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root { --gold: #d4af37; --brown: #2c1e10; --bg: #fdf8f2; --white: #ffffff; }
+        body { font-family: 'Montserrat', sans-serif; background: var(--bg); color: var(--brown); margin: 0; min-height: 100vh; }
+        .hidden { display: none !important; }
+
+        /* Экрандар */
+        .screen { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; padding: 20px; text-align: center; box-sizing: border-box; }
+        .abai-portrait { width: 180px; height: 180px; border-radius: 50%; border: 5px solid var(--gold); object-fit: cover; margin-bottom: 20px; }
+        .speech-bubble { background: var(--white); padding: 20px; border-radius: 15px; border: 2px solid var(--gold); max-width: 400px; margin-bottom: 20px; font-family: 'Playfair Display', serif; }
+        
+        .login-box { background: var(--white); padding: 30px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); width: 100%; max-width: 350px; }
+        input, select, textarea { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 8px; font-size: 1rem; box-sizing: border-box; outline: none; }
+        input:focus, textarea:focus { border-color: var(--gold); }
+        
+        .btn { background: var(--brown); color: var(--gold); padding: 12px 30px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; width: 100%; transition: 0.3s; }
+        .btn:hover { background: #3d2b1a; transform: translateY(-2px); }
+
+        /* Негізгі интерфейс */
+        header { background: var(--brown); color: white; padding: 15px 5%; display: flex; justify-content: space-between; align-items: center; }
+        nav { background: #3d2b1a; padding: 10px; display: flex; justify-content: center; position: sticky; top: 0; z-index: 100; }
+        nav a { color: white; text-decoration: none; padding: 8px 15px; cursor: pointer; border-radius: 5px; margin: 0 10px; transition: 0.3s; }
+        nav a:hover { background: rgba(212, 175, 55, 0.3); }
+        nav a.active { background: var(--gold); color: var(--brown); font-weight: bold; }
+
+        .content { max-width: 900px; margin: 20px auto; padding: 25px; background: var(--white); border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); display: none; }
+        .content.active { display: block; animation: fadeIn 0.5s; }
+        
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Отзыв бөлімі */
+        .reviews-container { margin-top: 30px; padding-top: 20px; border-top: 2px solid var(--gold); }
+        .review-card { background: #f9f9f9; padding: 15px; border-radius: 10px; margin-bottom: 15px; border-left: 5px solid var(--gold); text-align: left; }
+        .review-card b { color: var(--brown); display: block; margin-bottom: 5px; }
+        .review-card span { font-size: 0.8rem; color: #888; }
+
+        /* Медиа */
+        .comic-frame img { width: 100%; border-radius: 10px; }
+        .video-box { position: relative; padding-bottom: 56.25%; height: 0; background: #000; border-radius: 10px; overflow: hidden; }
+        .video-box video { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+    </style>
+</head>
+<body>
+
+    <div id="welcome" class="screen">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/6/66/Abay_Qunanbayuli.jpg" class="abai-portrait">
+        <div class="speech-bubble" id="type-text"></div>
+        <button class="btn" id="start-btn" onclick="showLogin()" style="display:none; width: auto;">Бастау</button>
+    </div>
+
+    <div id="login" class="screen hidden">
+        <div class="login-box">
+            <h2 style="margin-top:0">Кіру</h2>
+            <input type="text" id="user-name" placeholder="Атыңызды енгізіңіз">
+            <input type="password" id="user-pass" placeholder="Құпиясөз">
+            <button class="btn" onclick="login()">Кіру</button>
+            <p id="err" style="color:red; font-size:0.8rem;"></p>
+        </div>
+    </div>
+
+    <div id="app" class="hidden">
+        <header>
+            <h2 style="margin:0">АБАЙТАНУ</h2>
+            <div>
+                <span id="user-display" style="color:var(--gold); font-weight:bold;"></span>
+                <button onclick="logout()" style="background:none; border:1px solid var(--gold); color:var(--gold); cursor:pointer; margin-left:10px; padding:3px 10px; border-radius:5px;">Шығу</button>
+            </div>
+        </header>
+
+        <nav>
+            <a onclick="tab(0)" class="nav-link active">Қара сөздер</a>
+            <a onclick="tab(1)" class="nav-link">Комикстер</a>
+            <a onclick="tab(2)" class="nav-link">Тапсырмалар</a>
+            <a onclick="tab(3)" class="nav-link">Пікірлер</a>
+        </nav>
+
+        <main style="padding: 10px;">
+            <div id="tab-0" class="content active">
+                <h2>Қара сөздер</h2>
+                <select id="soz-select" onchange="loadSoz(this.value)"><option value="">Таңдаңыз...</option></select>
+                <div id="soz-view"></div>
+            </div>
+
+            <div id="tab-1" class="content">
+                <h2>Комикстер жинағы</h2>
+                <select id="comic-select" onchange="loadComic(this.value)"><option value="">Таңдаңыз...</option></select>
+                <div id="comic-view"></div>
+            </div>
+
+            <div id="tab-2" class="content">
+                <h2>Тапсырмалар</h2>
+                <div style="background:#fdf8f2; padding:20px; border-radius:10px; border:2px solid var(--gold);">
+                    <p><b>Сұрақ:</b> Абай Құнанбайұлы қай жылы туған?</p>
+                    <button class="btn" style="width:auto; margin:5px;" onclick="alert('Дұрыс!')">1845</button>
+                    <button class="btn" style="width:auto; margin:5px;" onclick="alert('Қате!')">1835</button>
+                </div>
+            </div>
+
+            <div id="tab-3" class="content">
+                <h2>Платформа туралы пікіріңіз</h2>
+                <textarea id="review-text" rows="4" placeholder="Пікіріңізді осында жазыңыз..."></textarea>
+                <button class="btn" onclick="addReview()">Пікір қалдыру</button>
+                
+                <div class="reviews-container" id="reviews-list">
+                    </div>
+            </div>
+        </main>
+    </div>
+
+<script>
+    const msg = "Фото и текст";
+    let charIdx = 0;
+
+    window.onload = () => {
+        // Селекторларды толтыру
+        const s1 = document.getElementById('soz-select');
+        const s2 = document.getElementById('comic-select');
+        for (let i = 1; i <= 45; i++) {
+            s1.add(new Option(i + "-ші қара сөз", i));
+            s2.add(new Option(i + "-ші комикс", i));
+        }
+
+        // Сессияны тексеру
+        const savedName = localStorage.getItem('userName');
+        if (savedName) {
+            showApp(savedName);
+        } else {
+            type();
+        }
+        renderReviews();
+    };
+
+    function type() {
+        if (charIdx < msg.length) {
+            document.getElementById("type-text").innerHTML += msg.charAt(charIdx);
+            charIdx++;
+            setTimeout(type, 40);
+        } else {
+            document.getElementById("start-btn").style.display = "inline-block";
+        }
+    }
+
+    function showLogin() {
+        document.getElementById('welcome').classList.add('hidden');
+        document.getElementById('login').classList.remove('hidden');
+    }
+
+    function login() {
+        const name = document.getElementById('user-name').value.trim();
+        const pass = document.getElementById('user-pass').value;
+        const err = document.getElementById('err');
+
+        if (name.length < 2) {
+            err.innerText = "Атыңызды дұрыс енгізіңіз!";
+            return;
+        }
+        if (pass.length < 4) {
+            err.innerText = "Құпиясөз тым қысқа (мин. 4 белгі)!";
+            return;
+        }
+
+        localStorage.setItem('userName', name);
+        showApp(name);
+    }
+
+    function showApp(name) {
+        document.getElementById('welcome').classList.add('hidden');
+        document.getElementById('login').classList.add('hidden');
+        document.getElementById('app').classList.remove('hidden');
+        document.getElementById('user-display').innerText = "Пайдаланушы: " + name;
+    }
+
+    function tab(n) {
+        document.querySelectorAll('.content').forEach((c, i) => c.classList.toggle('active', i === n));
+        document.querySelectorAll('.nav-link').forEach((l, i) => l.classList.toggle('active', i === n));
+    }
+
+    function loadSoz(n) {
+        const v = document.getElementById('soz-view');
+        if (!n) { v.innerHTML = ''; return; }
+        v.innerHTML = `<div class="fade-in"><h3>№${n} Қара сөз</h3><div class="video-box"><video controls><source src="assets/videos/soz_${n}.mp4" type="video/mp4"></video></div><div class="text-box">Абайдың ${n}-ші қара сөзінің мәтіні осында болады.</div></div>`;
+    }
+
+    function loadComic(n) {
+        const v = document.getElementById('comic-view');
+        if (!n) { v.innerHTML = ''; return; }
+        v.innerHTML = `<div class="fade-in"><h3>№${n} Комикс</h3><div class="comic-frame"><img src="assets/comics/comic_${n}.jpg" onerror="this.src='https://via.placeholder.com/800x600?text=Сурет+табылмады'"></div></div>`;
+    }
+
+    // --- ОТЗЫВ ЛОГИКАСЫ ---
+    function addReview() {
+        const text = document.getElementById('review-text').value.trim();
+        const name = localStorage.getItem('userName');
+        
+        if (!text) return;
+
+        const reviews = JSON.parse(localStorage.getItem('userReviews') || "[]");
+        const newReview = {
+            name: name,
+            text: text,
+            date: new Date().toLocaleString('kk-KZ')
+        };
+
+        reviews.unshift(newReview); // Жаңа пікірді басына қосу
+        localStorage.setItem('userReviews', JSON.stringify(reviews));
+        
+        document.getElementById('review-text').value = ''; // Тазалау
+        renderReviews();
+    }
+
+    function renderReviews() {
+        const list = document.getElementById('reviews-list');
+        const reviews = JSON.parse(localStorage.getItem('userReviews') || "[]");
+        
+        if (reviews.length === 0) {
+            list.innerHTML = "<p style='color:#888'>Әзірге пікірлер жоқ. Бірінші болып қалдырыңыз!</p>";
+            return;
+        }
+
+        list.innerHTML = reviews.map(r => `
+            <div class="review-card">
+                <b>${r.name}</b>
+                <p>${r.text}</p>
+                <span>${r.date}</span>
+            </div>
+        `).join('');
+    }
+
+    function logout() {
+        localStorage.removeItem('userName');
+        location.reload();
+    }
+</script>
+</body>
+</html>
