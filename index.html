@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>АБАЙ ӘЛЕМІ</title>
+    <title>АБАЙ ӘЛЕМІ — Оқу Платформасы</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
     <style>
         :root { --gold: #d4af37; --brown: #2c1e10; --bg: #fdf8f2; --white: #ffffff; }
@@ -12,38 +12,39 @@
 
         /* Экрандар */
         .screen { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; padding: 20px; text-align: center; box-sizing: border-box; }
-        .abai-portrait { width: 180px; height: 180px; border-radius: 50%; border: 5px solid var(--gold); object-fit: cover; margin-bottom: 20px; }
-        .speech-bubble { background: var(--white); padding: 20px; border-radius: 15px; border: 2px solid var(--gold); max-width: 400px; margin-bottom: 20px; font-family: 'Playfair Display', serif; }
+        .abai-portrait { width: 180px; height: 180px; border-radius: 50%; border: 5px solid var(--gold); object-fit: cover; margin-bottom: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
+        .speech-bubble { background: var(--white); padding: 20px; border-radius: 15px; border: 2px solid var(--gold); max-width: 450px; margin-bottom: 20px; font-family: 'Playfair Display', serif; font-size: 1.2rem; position: relative; }
+        .speech-bubble::after { content: ''; position: absolute; top: -15px; left: 50%; border: 10px solid transparent; border-bottom-color: var(--gold); }
         
-        .login-box { background: var(--white); padding: 30px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); width: 100%; max-width: 350px; }
-        input, select, textarea { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 8px; font-size: 1rem; box-sizing: border-box; outline: none; }
-        input:focus, textarea:focus { border-color: var(--gold); }
+        .login-box { background: var(--white); padding: 30px; border-radius: 15px; box-shadow: 0 10px 40px rgba(0,0,0,0.1); width: 100%; max-width: 350px; border-top: 5px solid var(--gold); }
+        input { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 8px; font-size: 1rem; box-sizing: border-box; outline: none; }
         
-        .btn { background: var(--brown); color: var(--gold); padding: 12px 30px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; width: 100%; transition: 0.3s; }
+        .btn { background: var(--brown); color: var(--gold); padding: 12px 30px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; width: 100%; transition: 0.3s; margin: 5px 0; }
         .btn:hover { background: #3d2b1a; transform: translateY(-2px); }
 
-        /* Негізгі интерфейс */
+        /* Интерфейс */
         header { background: var(--brown); color: white; padding: 15px 5%; display: flex; justify-content: space-between; align-items: center; }
-        nav { background: #3d2b1a; padding: 10px; display: flex; justify-content: center; position: sticky; top: 0; z-index: 100; }
-        nav a { color: white; text-decoration: none; padding: 8px 15px; cursor: pointer; border-radius: 5px; margin: 0 10px; transition: 0.3s; }
-        nav a:hover { background: rgba(212, 175, 55, 0.3); }
-        nav a.active { background: var(--gold); color: var(--brown); font-weight: bold; }
+        nav { background: #3d2b1a; padding: 10px; display: flex; justify-content: center; position: sticky; top: 0; z-index: 100; flex-wrap: wrap; }
+        nav a { color: white; text-decoration: none; padding: 8px 15px; cursor: pointer; border-radius: 5px; margin: 0 10px; transition: 0.3s; font-size: 0.9rem; }
+        nav a:hover, nav a.active { background: var(--gold); color: var(--brown); font-weight: bold; }
 
-        .content { max-width: 900px; margin: 20px auto; padding: 25px; background: var(--white); border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); display: none; }
+        .content { max-width: 1000px; margin: 20px auto; padding: 25px; background: var(--white); border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); display: none; }
         .content.active { display: block; animation: fadeIn 0.5s; }
         
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* Отзыв бөлімі */
-        .reviews-container { margin-top: 30px; padding-top: 20px; border-top: 2px solid var(--gold); }
-        .review-card { background: #f9f9f9; padding: 15px; border-radius: 10px; margin-bottom: 15px; border-left: 5px solid var(--gold); text-align: left; }
-        .review-card b { color: var(--brown); display: block; margin-bottom: 5px; }
-        .review-card span { font-size: 0.8rem; color: #888; }
-
         /* Медиа */
-        .comic-frame img { width: 100%; border-radius: 10px; }
-        .video-box { position: relative; padding-bottom: 56.25%; height: 0; background: #000; border-radius: 10px; overflow: hidden; }
-        .video-box video { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+        .video-box { position: relative; padding-bottom: 56.25%; height: 0; background: #000; border-radius: 10px; overflow: hidden; margin: 20px 0; border: 3px solid var(--brown); }
+        .video-box video { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; }
+        .text-box { background: #f9f9f9; padding: 20px; border-radius: 10px; border-left: 5px solid var(--gold); margin-top: 15px; line-height: 1.8; text-align: justify; }
+
+        /* Тест стилі */
+        .quiz-option { display: block; width: 100%; padding: 15px; margin: 10px 0; border: 1px solid #ddd; border-radius: 8px; background: white; cursor: pointer; transition: 0.2s; text-align: left; font-size: 1rem; }
+        .quiz-option:hover { background: #fff9e6; border-color: var(--gold); }
+        .quiz-option.correct { background: #d4edda !important; border-color: #28a745 !important; color: #155724; font-weight: bold; }
+        .quiz-option.wrong { background: #f8d7da !important; border-color: #dc3545 !important; color: #721c24; }
+        
+        select { width: 100%; padding: 12px; border-radius: 8px; border: 2px solid var(--gold); font-weight: bold; margin-bottom: 20px; outline: none; background: #fff; }
     </style>
 </head>
 <body>
@@ -51,88 +52,126 @@
     <div id="welcome" class="screen">
         <img src="https://upload.wikimedia.org/wikipedia/commons/6/66/Abay_Qunanbayuli.jpg" class="abai-portrait">
         <div class="speech-bubble" id="type-text"></div>
-        <button class="btn" id="start-btn" onclick="showLogin()" style="display:none; width: auto;">Бастау</button>
+        <button class="btn" id="start-btn" onclick="showLogin()" style="display:none; width: auto; padding: 15px 40px;">БАСТАУ</button>
     </div>
 
     <div id="login" class="screen hidden">
         <div class="login-box">
-            <h2 style="margin-top:0">Кіру</h2>
+            <h2 style="margin-top:0; color: var(--brown);">Кіру</h2>
             <input type="text" id="user-name" placeholder="Атыңызды енгізіңіз">
             <input type="password" id="user-pass" placeholder="Құпиясөз">
-            <button class="btn" onclick="login()">Кіру</button>
+            <button class="btn" onclick="login()">КІРУ</button>
             <p id="err" style="color:red; font-size:0.8rem;"></p>
         </div>
     </div>
 
     <div id="app" class="hidden">
         <header>
-            <h2 style="margin:0">АБАЙТАНУ</h2>
+            <h2 style="margin:0; font-family: 'Playfair Display';">АБАЙТАНУ</h2>
             <div>
                 <span id="user-display" style="color:var(--gold); font-weight:bold;"></span>
-                <button onclick="logout()" style="background:none; border:1px solid var(--gold); color:var(--gold); cursor:pointer; margin-left:10px; padding:3px 10px; border-radius:5px;">Шығу</button>
+                <button onclick="logout()" style="background:none; border:1px solid var(--gold); color:var(--gold); cursor:pointer; margin-left:15px; padding:3px 10px; border-radius:5px;">Шығу</button>
             </div>
         </header>
 
         <nav>
-            <a onclick="tab(0)" class="nav-link active">Қара сөздер</a>
-            <a onclick="tab(1)" class="nav-link">Комикстер</a>
-            <a onclick="tab(2)" class="nav-link">Тапсырмалар</a>
-            <a onclick="tab(3)" class="nav-link">Пікірлер</a>
+            <a onclick="tab(0)" id="nav-0" class="nav-link active">Қара сөздер</a>
+            <a onclick="tab(1)" id="nav-1" class="nav-link">Комикстер</a>
+            <a onclick="tab(2)" id="nav-2" class="nav-link">Тапсырмалар</a>
+            <a onclick="tab(3)" id="nav-3" class="nav-link">Пікірлер</a>
         </nav>
 
         <main style="padding: 10px;">
             <div id="tab-0" class="content active">
-                <h2>Қара сөздер</h2>
-                <select id="soz-select" onchange="loadSoz(this.value)"><option value="">Таңдаңыз...</option></select>
-                <div id="soz-view"></div>
+                <h2>Абайдың қара сөздері</h2>
+                <select id="soz-select" onchange="loadContent(this.value)"></select>
+                <div id="soz-view">
+                    </div>
             </div>
 
             <div id="tab-1" class="content">
-                <h2>Комикстер жинағы</h2>
-                <select id="comic-select" onchange="loadComic(this.value)"><option value="">Таңдаңыз...</option></select>
-                <div id="comic-view"></div>
+                <h2>Иллюстрациялық комикстер</h2>
+                <select id="comic-select" onchange="loadComic(this.value)"></select>
+                <div id="comic-view" style="text-align: center;"></div>
             </div>
 
             <div id="tab-2" class="content">
-                <h2>Тапсырмалар</h2>
-                <div style="background:#fdf8f2; padding:20px; border-radius:10px; border:2px solid var(--gold);">
-                    <p><b>Сұрақ:</b> Абай Құнанбайұлы қай жылы туған?</p>
-                    <button class="btn" style="width:auto; margin:5px;" onclick="alert('Дұрыс!')">1845</button>
-                    <button class="btn" style="width:auto; margin:5px;" onclick="alert('Қате!')">1835</button>
+                <h2>Біліміңді тексер</h2>
+                <p>Қай сөз бойынша тест тапсырасыз?</p>
+                <select id="quiz-select" onchange="loadQuiz(this.value)"></select>
+                
+                <div id="quiz-view" class="hidden" style="margin-top:20px; padding:30px; background:#fffcf5; border-radius:12px; border:2px solid var(--gold);">
+                    <h3 id="quiz-question"></h3>
+                    <div id="quiz-options"></div>
+                    <div id="quiz-result" style="margin-top:15px; font-weight:bold; font-size: 1.1rem;"></div>
                 </div>
             </div>
 
             <div id="tab-3" class="content">
                 <h2>Платформа туралы пікіріңіз</h2>
-                <textarea id="review-text" rows="4" placeholder="Пікіріңізді осында жазыңыз..."></textarea>
-                <button class="btn" onclick="addReview()">Пікір қалдыру</button>
-                
-                <div class="reviews-container" id="reviews-list">
-                    </div>
+                <textarea id="review-text" rows="4" style="width:100%; padding:15px; border-radius:10px; border:1px solid #ddd;" placeholder="Пікіріңізді жазыңыз..."></textarea>
+                <button class="btn" onclick="addReview()" style="width:auto; padding:10px 30px; margin-top:10px;">ЖІБЕРУ</button>
+                <div id="reviews-list" style="margin-top:20px;"></div>
             </div>
         </main>
     </div>
 
 <script>
-    const msg = "Фото и текст";
+    // --- ДЕРЕКТЕР БАЗАСЫ (1-45 СӨЗ) ---
+    const abaiData = {
+        "1": {
+            text: "Бұл жасқа келгенше жақсы өткіздік пе, жаман өткіздік пе, әйтеуір бірталай өмірді өткіздік. Енді қалған өмірімізді қалай өткіземіз? Соны таба алмай өзім де қайранмын...",
+            quiz: {
+                q: "Абай бірінші қара сөзінде не істеуге бел байлады?",
+                o: ["Ел басқаруға", "Осы қара сөздерді жазуға", "Сауда жасауға"],
+                c: 1
+            }
+        },
+        "17": {
+            text: "Қайрат, Ақыл, Жүрек үшеуі таласып, Ғылымға келіп жүгініпті. Ғылым айтты: «Үшеуің де жақсысың, бірақ бәріңнің басыңды қосатын — Жүрек».",
+            quiz: {
+                q: "Он жетінші қара сөзде бәрінің басын қосатын кім?",
+                o: ["Ақыл", "Қайрат", "Жүрек"],
+                c: 2
+            }
+        }
+    };
+
+    // Қалған сөздерді шаблонмен толтыру
+    for (let i = 1; i <= 45; i++) {
+        const k = i.toString();
+        if (!abaiData[k]) {
+            abaiData[k] = {
+                text: `${i}-ші қара сөздің толық мәтіні осында болады. Абай бұл жерде білім мен адамгершілік туралы насихат айтады.`,
+                quiz: {
+                    q: `${i}-ші қара сөз бойынша: Абайдың айтқан басты қасиеті не?`,
+                    o: ["Еңбек", "Өтірік айтпау", "Білім іздеу"],
+                    c: 2
+                }
+            };
+        }
+    }
+
+    const msg = "Абай әлеміне қош келдіңіз! Мұнда 45 қара сөзді видео, комикс және тест арқылы меңгере аласыз.";
     let charIdx = 0;
 
     window.onload = () => {
-        // Селекторларды толтыру
+        // Селекторларды дайындау
         const s1 = document.getElementById('soz-select');
         const s2 = document.getElementById('comic-select');
+        const s3 = document.getElementById('quiz-select');
+        
+        [s1, s2, s3].forEach(s => s.add(new Option("--- Тізімнен таңдаңыз ---", "")));
+        
         for (let i = 1; i <= 45; i++) {
-            s1.add(new Option(i + "-ші қара сөз", i));
+            const opt = new Option(i + "-ші қара сөз", i);
+            s1.add(opt.cloneNode(true));
             s2.add(new Option(i + "-ші комикс", i));
+            s3.add(new Option(i + "-ші тест", i));
         }
 
-        // Сессияны тексеру
-        const savedName = localStorage.getItem('userName');
-        if (savedName) {
-            showApp(savedName);
-        } else {
-            type();
-        }
+        const user = localStorage.getItem('userName');
+        if (user) showApp(user); else type();
         renderReviews();
     };
 
@@ -152,28 +191,21 @@
     }
 
     function login() {
-        const name = document.getElementById('user-name').value.trim();
-        const pass = document.getElementById('user-pass').value;
-        const err = document.getElementById('err');
-
-        if (name.length < 2) {
-            err.innerText = "Атыңызды дұрыс енгізіңіз!";
+        const n = document.getElementById('user-name').value.trim();
+        const p = document.getElementById('user-pass').value;
+        if (n.length < 2 || p.length < 3) {
+            document.getElementById('err').innerText = "Мәліметтерді толтырыңыз!";
             return;
         }
-        if (pass.length < 4) {
-            err.innerText = "Құпиясөз тым қысқа (мин. 4 белгі)!";
-            return;
-        }
-
-        localStorage.setItem('userName', name);
-        showApp(name);
+        localStorage.setItem('userName', n);
+        showApp(n);
     }
 
-    function showApp(name) {
+    function showApp(n) {
         document.getElementById('welcome').classList.add('hidden');
         document.getElementById('login').classList.add('hidden');
         document.getElementById('app').classList.remove('hidden');
-        document.getElementById('user-display').innerText = "Пайдаланушы: " + name;
+        document.getElementById('user-display').innerText = "Оқушы: " + n;
     }
 
     function tab(n) {
@@ -181,53 +213,90 @@
         document.querySelectorAll('.nav-link').forEach((l, i) => l.classList.toggle('active', i === n));
     }
 
-    function loadSoz(n) {
+    // --- ЛОКАЛЬДЫ ВИДЕО ЖҮКТЕУ ---
+    function loadContent(n) {
         const v = document.getElementById('soz-view');
         if (!n) { v.innerHTML = ''; return; }
-        v.innerHTML = `<div class="fade-in"><h3>№${n} Қара сөз</h3><div class="video-box"><video controls><source src="assets/videos/soz_${n}.mp4" type="video/mp4"></video></div><div class="text-box">Абайдың ${n}-ші қара сөзінің мәтіні осында болады.</div></div>`;
+        const data = abaiData[n];
+        v.innerHTML = `
+            <div class="video-box">
+                <video controls>
+                    <source src="assets/videos/soz_${n}.mp4" type="video/mp4">
+                    Браузер видеоны қолдамайды.
+                </video>
+            </div>
+            <div class="text-box"><h3>№${n} Қара сөз</h3>${data.text}</div>
+        `;
     }
 
+    // --- ЛОКАЛЬДЫ КОМИКС ЖҮКТЕУ ---
     function loadComic(n) {
         const v = document.getElementById('comic-view');
         if (!n) { v.innerHTML = ''; return; }
-        v.innerHTML = `<div class="fade-in"><h3>№${n} Комикс</h3><div class="comic-frame"><img src="assets/comics/comic_${n}.jpg" onerror="this.src='https://via.placeholder.com/800x600?text=Сурет+табылмады'"></div></div>`;
+        v.innerHTML = `
+            <h3>№${n} Комикс</h3>
+            <img src="assets/comics/comic_${n}.jpg" style="max-width:100%; border-radius:10px; border:3px solid var(--gold);" 
+                 onerror="this.src='https://via.placeholder.com/600x400?text=${n}-ші+сөз+комиксі'">
+        `;
     }
 
-    // --- ОТЗЫВ ЛОГИКАСЫ ---
+    // --- ТЕСТ ЛОГИКАСЫ ---
+    function loadQuiz(n) {
+        const view = document.getElementById('quiz-view');
+        const optionsDiv = document.getElementById('quiz-options');
+        const resDiv = document.getElementById('quiz-result');
+        resDiv.innerHTML = "";
+
+        if (!n) { view.classList.add('hidden'); return; }
+        
+        view.classList.remove('hidden');
+        const quiz = abaiData[n].quiz;
+        document.getElementById('quiz-question').innerText = quiz.q;
+        
+        optionsDiv.innerHTML = "";
+        quiz.o.forEach((opt, i) => {
+            const b = document.createElement('button');
+            b.className = "quiz-option";
+            b.innerText = opt;
+            b.onclick = () => checkAnswer(i, quiz.c, b);
+            optionsDiv.appendChild(b);
+        });
+    }
+
+    function checkAnswer(idx, correct, btn) {
+        const res = document.getElementById('quiz-result');
+        const btns = document.querySelectorAll('.quiz-option');
+        btns.forEach(b => b.onclick = null); 
+
+        if (idx === correct) {
+            btn.classList.add('correct');
+            res.innerText = "✅ Дұрыс жауап! Жарайсың.";
+            res.style.color = "green";
+        } else {
+            btn.classList.add('wrong');
+            btns[correct].classList.add('correct');
+            res.innerText = "❌ Қате. Дұрыс жауап жасылмен белгіленді.";
+            res.style.color = "red";
+        }
+    }
+
+    // --- ПІКІРЛЕР ---
     function addReview() {
-        const text = document.getElementById('review-text').value.trim();
-        const name = localStorage.getItem('userName');
-        
-        if (!text) return;
-
-        const reviews = JSON.parse(localStorage.getItem('userReviews') || "[]");
-        const newReview = {
-            name: name,
-            text: text,
-            date: new Date().toLocaleString('kk-KZ')
-        };
-
-        reviews.unshift(newReview); // Жаңа пікірді басына қосу
-        localStorage.setItem('userReviews', JSON.stringify(reviews));
-        
-        document.getElementById('review-text').value = ''; // Тазалау
+        const txt = document.getElementById('review-text').value;
+        if (!txt) return;
+        const revs = JSON.parse(localStorage.getItem('reviews') || "[]");
+        revs.unshift({ name: localStorage.getItem('userName'), text: txt });
+        localStorage.setItem('reviews', JSON.stringify(revs));
+        document.getElementById('review-text').value = "";
         renderReviews();
     }
 
     function renderReviews() {
         const list = document.getElementById('reviews-list');
-        const reviews = JSON.parse(localStorage.getItem('userReviews') || "[]");
-        
-        if (reviews.length === 0) {
-            list.innerHTML = "<p style='color:#888'>Әзірге пікірлер жоқ. Бірінші болып қалдырыңыз!</p>";
-            return;
-        }
-
-        list.innerHTML = reviews.map(r => `
-            <div class="review-card">
-                <b>${r.name}</b>
-                <p>${r.text}</p>
-                <span>${r.date}</span>
+        const revs = JSON.parse(localStorage.getItem('reviews') || "[]");
+        list.innerHTML = revs.map(r => `
+            <div style="background:#fff; padding:15px; border-radius:10px; margin-bottom:10px; border-left:5px solid var(--gold); box-shadow: 0 2px 5px rgba(0,0,0,0.05);">
+                <b>${r.name}</b><p style="margin:5px 0 0;">${r.text}</p>
             </div>
         `).join('');
     }
