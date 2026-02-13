@@ -1,93 +1,130 @@
+
 <!DOCTYPE html>
 <html lang="kk">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>АБАЙ ӘЛЕМІ — Платформа</title>
+    <title>АБАЙ ӘЛЕМІ — Даналық жолы</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
     <style>
-        :root { --gold: #d4af37; --brown: #2c1e10; --bg: #fdf8f2; --white: #ffffff; }
+        :root { --gold: #d4af37; --brown: #2c1e10; --bg: #fdf8f2; --white: #ffffff; --green: #28a745; --red: #dc3545; }
         body { font-family: 'Montserrat', sans-serif; background: var(--bg); color: var(--brown); margin: 0; min-height: 100vh; }
         .hidden { display: none !important; }
 
-        /* Welcome & Login */
+        /* ЭКРАНЫ */
         .screen { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; padding: 20px; text-align: center; }
-        .abai-portrait { width: 180px; height: 180px; border-radius: 50%; border: 5px solid var(--gold); object-fit: cover; margin-bottom: 20px; }
-        .speech-bubble { background: var(--white); padding: 20px; border-radius: 15px; border: 2px solid var(--gold); max-width: 450px; margin-bottom: 20px; font-family: 'Playfair Display', serif; position: relative; }
-        .login-box { background: var(--white); padding: 30px; border-radius: 15px; box-shadow: 0 10px 40px rgba(0,0,0,0.1); width: 100%; max-width: 350px; border-top: 5px solid var(--gold); }
-        input, textarea, select { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; }
+        
+        /* 1. ЗАСТАВКА (INTRO) */
+        .abai-portrait { width: 180px; height: 180px; border-radius: 50%; border: 5px solid var(--gold); object-fit: cover; margin-bottom: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); animation: fadeIn 1.5s; }
+        .speech-bubble { background: var(--white); padding: 20px; border-radius: 15px; border: 2px solid var(--gold); max-width: 450px; margin-bottom: 20px; font-family: 'Playfair Display', serif; font-size: 1.2rem; min-height: 60px; display: flex; align-items: center; justify-content: center; }
 
-        .btn { background: var(--brown); color: var(--gold); padding: 12px 30px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; width: 100%; transition: 0.3s; }
-        .btn:hover { background: #3d2b1a; transform: translateY(-2px); }
+        /* АВТОРИЗАЦИЯ */
+        .auth-box { background: var(--white); padding: 40px; border-radius: 15px; box-shadow: 0 15px 40px rgba(0,0,0,0.1); width: 100%; max-width: 350px; border-top: 5px solid var(--gold); animation: slideUp 0.5s; }
+        input { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ccc; border-radius: 8px; box-sizing: border-box; font-family: inherit; }
+        .link-btn { background: none; border: none; color: var(--gold); cursor: pointer; text-decoration: underline; margin-top: 10px; font-size: 0.9rem; }
 
-        /* Main App */
-        header { background: var(--brown); color: white; padding: 15px 5%; display: flex; justify-content: space-between; align-items: center; }
+        .btn { background: var(--brown); color: var(--gold); padding: 12px 30px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; width: 100%; transition: 0.2s; margin-top: 10px; }
+        .btn:hover { background: #4a3b2a; transform: translateY(-2px); }
+
+        /* ИНТЕРФЕЙС ПРИЛОЖЕНИЯ */
+        header { background: var(--brown); color: white; padding: 15px 5%; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
+        .user-info { display: flex; align-items: center; gap: 15px; text-align: right; }
+        .admin-badge { background: var(--gold); color: var(--brown); padding: 2px 8px; border-radius: 4px; font-size: 0.7rem; font-weight: bold; text-transform: uppercase; display: inline-block; margin-top: 5px; }
+        .progress-bar-container { width: 150px; height: 10px; background: rgba(255,255,255,0.2); border-radius: 5px; overflow: hidden; position: relative; margin-top: 5px; }
+        .progress-fill { height: 100%; background: var(--gold); width: 0%; transition: width 0.5s; }
+        .progress-text { font-size: 0.75rem; color: var(--gold); margin-top: 2px; }
+
         nav { background: #3d2b1a; padding: 10px; display: flex; justify-content: center; position: sticky; top: 0; z-index: 100; flex-wrap: wrap; }
-        nav a { color: white; text-decoration: none; padding: 8px 15px; cursor: pointer; border-radius: 5px; margin: 0 10px; transition: 0.3s; font-size: 0.9rem; }
-        nav a.active { background: var(--gold); color: var(--brown); font-weight: bold; }
+        nav a { color: rgba(255,255,255,0.8); text-decoration: none; padding: 8px 15px; cursor: pointer; border-radius: 5px; margin: 0 5px; transition: 0.3s; }
+        nav a:hover, nav a.active { background: var(--gold); color: var(--brown); font-weight: bold; }
 
-        .content { max-width: 900px; margin: 20px auto; padding: 25px; background: var(--white); border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); display: none; }
+        .content { max-width: 900px; margin: 20px auto; padding: 25px; background: var(--white); border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); display: none; animation: fadeIn 0.4s; }
         .content.active { display: block; }
 
-        /* Navigation Arrows for Video, Comic, Quiz */
-        .nav-controls { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; gap: 10px; }
+        .nav-controls { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; gap: 10px; }
         .arrow-btn { background: var(--gold); color: var(--brown); border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer; font-weight: bold; }
+        select { padding: 10px; border-radius: 5px; border: 1px solid #ccc; flex-grow: 1; }
 
-        .video-box { position: relative; padding-bottom: 56.25%; height: 0; background: #000; border-radius: 10px; overflow: hidden; margin: 20px 0; border: 3px solid var(--brown); }
-        .video-box video { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
-        .text-box { background: #f9f9f9; padding: 20px; border-radius: 10px; border-left: 5px solid var(--gold); line-height: 1.8; text-align: justify; }
+        /* ТЕСТЫ */
+        .quiz-option { display: block; width: 100%; padding: 15px; margin: 10px 0; border: 1px solid #ddd; border-radius: 8px; background: white; cursor: pointer; text-align: left; transition: 0.2s; font-size: 1rem; }
+        .quiz-option:hover { background: #fffdf5; border-color: var(--gold); }
+        .quiz-option.correct { background: #d4edda !important; border-color: #28a745 !important; color: #155724; font-weight: bold; }
+        .quiz-option.wrong { background: #f8d7da !important; border-color: #dc3545 !important; color: #721c24; }
+        .score-circle { width: 120px; height: 120px; background: var(--gold); color: var(--brown); border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 2rem; font-weight: bold; margin: 0 auto 20px; border: 5px solid var(--brown); }
 
-        .quiz-option { display: block; width: 100%; padding: 15px; margin: 10px 0; border: 1px solid #ddd; border-radius: 8px; background: white; cursor: pointer; text-align: left; }
-        .quiz-option.correct { background: #d4edda !important; border-color: #28a745 !important; }
-        .quiz-option.wrong { background: #f8d7da !important; border-color: #dc3545 !important; }
+        /* ОТЗЫВЫ */
+        .review-card { background: #fff; padding: 15px; border-radius: 10px; margin-bottom: 15px; border-left: 4px solid var(--brown); box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .review-header { display: flex; justify-content: space-between; font-size: 0.85rem; color: #777; margin-bottom: 5px; }
+        .review-user { font-weight: bold; color: var(--brown); font-size: 1rem; }
+        .admin-reply-box { background: #fff8e1; border-left: 4px solid var(--gold); margin-top: 10px; padding: 10px; border-radius: 5px; font-size: 0.95rem; animation: fadeIn 0.3s; }
+        .admin-label { font-weight: bold; color: var(--brown); display: block; margin-bottom: 5px; font-size: 0.8rem; text-transform: uppercase; }
+        .reply-input-area { margin-top: 10px; display: flex; gap: 5px; }
+        .reply-input-area input { margin: 0; flex-grow: 1; padding: 8px; }
+        .reply-btn { background: var(--gold); color: var(--brown); border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; font-weight: bold; font-size: 0.8rem; }
 
-        /* Пікірлер бөлімі - Стрелкасыз таза дизайн */
-        .reviews-list { margin-top: 25px; border-top: 1px solid #eee; padding-top: 20px; }
-        .review-card { background: #fcfaf5; padding: 15px; border-radius: 10px; margin-bottom: 15px; border-left: 5px solid var(--gold); box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
-        .review-card b { color: var(--brown); font-size: 1.1rem; }
-        .review-card p { margin: 8px 0 0; line-height: 1.5; color: #444; }
-        .review-card small { color: #888; display: block; margin-top: 5px; font-size: 0.75rem; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
 
-    <div id="welcome" class="screen">
+    <div id="intro-screen" class="screen">
         <img src="https://upload.wikimedia.org/wikipedia/commons/6/66/Abay_Qunanbayuli.jpg" class="abai-portrait">
         <div class="speech-bubble" id="type-text"></div>
-        <button class="btn" id="start-btn" onclick="showLogin()" style="display:none; width: auto; padding: 15px 40px;">БАСТАУ</button>
+        <button class="btn" id="start-btn" onclick="goToAuth()" style="display:none; width: auto; padding: 15px 50px;">БАСТАУ</button>
     </div>
 
-    <div id="login" class="screen hidden">
-        <div class="login-box">
-            <h2 style="margin-top:0">Қош келдіңіз!</h2>
-            <input type="text" id="user-name" placeholder="Атыңызды жазыңыз">
-            <input type="password" id="user-pass" placeholder="Құпиясөз">
-            <button class="btn" onclick="login()">КІРУ</button>
-            <p id="err" style="color:red; font-size:0.8rem;"></p>
+    <div id="auth-screen" class="screen hidden">
+        <div id="login-form" class="auth-box">
+            <h2 style="margin:0; color:var(--brown);">Кіру (Вход)</h2>
+            <input type="text" id="login-username" placeholder="Логин">
+            <input type="password" id="login-password" placeholder="Құпиясөз (Пароль)">
+            <button class="btn" onclick="handleLogin()">КІРУ</button>
+            <button class="link-btn" onclick="toggleAuth('register')">Тіркелу</button>
         </div>
+
+        <div id="register-form" class="auth-box hidden">
+            <h2 style="margin:0; color:var(--brown);">Тіркелу</h2>
+            <input type="text" id="reg-username" placeholder="Жаңа логин">
+            <input type="password" id="reg-password" placeholder="Жаңа құпиясөз">
+            <button class="btn" onclick="handleRegister()">ТІРКЕЛУ</button>
+            <button class="link-btn" onclick="toggleAuth('login')">Кіруге оралу</button>
+        </div>
+        <p id="auth-msg" style="color:var(--red); margin-top:10px; font-weight:bold;"></p>
     </div>
 
     <div id="app" class="hidden">
         <header>
-            <h2 style="margin:0">АБАЙТАНУ</h2>
-            <div style="display: flex; align-items: center;">
-                <span id="user-display" style="color:var(--gold); font-weight:bold;"></span>
-                <button onclick="logout()" style="background:none; border:1px solid var(--gold); color:var(--gold); margin-left:15px; cursor:pointer; border-radius:5px; padding:2px 8px;">Шығу</button>
+            <div style="display:flex; align-items:center; gap:10px;">
+                <h2 style="margin:0;">АБАЙТАНУ</h2>
+            </div>
+            
+            <div class="user-info">
+                <div>
+                    <div style="font-weight:bold; font-size:1.1rem;" id="user-display">User</div>
+                    <div id="admin-badge" class="admin-badge hidden">ADMIN</div>
+                    
+                    <div class="progress-bar-container">
+                        <div class="progress-fill" id="global-progress"></div>
+                    </div>
+                    <div class="progress-text" id="progress-text">0 / 45 сөз</div>
+                </div>
+                <button onclick="logout()" style="background:none; border:1px solid rgba(255,255,255,0.5); color:white; cursor:pointer; border-radius:5px; padding: 5px 10px; font-size:0.8rem; height:fit-content; align-self: center;">Шығу</button>
             </div>
         </header>
 
         <nav>
             <a onclick="tab(0)" class="nav-link active">Қара сөздер</a>
             <a onclick="tab(1)" class="nav-link">Комикстер</a>
-            <a onclick="tab(2)" class="nav-link">Тапсырмалар</a>
+            <a onclick="tab(2)" class="nav-link">Тесттер</a>
             <a onclick="tab(3)" class="nav-link">Пікірлер</a>
         </nav>
 
-        <main style="padding: 10px;">
+        <main>
             <div id="tab-0" class="content active">
                 <div class="nav-controls">
                     <button class="arrow-btn" onclick="move(-1, 'soz-select')">←</button>
-                    <select id="soz-select" onchange="loadSoz(this.value)"></select>
+                    <select id="soz-select" onchange="loadContent(this.value)"></select>
                     <button class="arrow-btn" onclick="move(1, 'soz-select')">→</button>
                 </div>
                 <div id="soz-view"></div>
@@ -104,174 +141,900 @@
 
             <div id="tab-2" class="content">
                 <div class="nav-controls">
-                    <button class="arrow-btn" onclick="move(-1, 'quiz-select')">← Тест</button>
+                    <button class="arrow-btn" onclick="move(-1, 'quiz-select')">←</button>
                     <select id="quiz-select" onchange="loadQuiz(this.value)"></select>
-                    <button class="arrow-btn" onclick="move(1, 'quiz-select')">Тест →</button>
+                    <button class="arrow-btn" onclick="move(1, 'quiz-select')">→</button>
                 </div>
-                <div id="quiz-view" class="hidden" style="padding:20px; background:#fffcf5; border-radius:12px; border:2px solid var(--gold);">
-                    <h3 id="quiz-q"></h3>
-                    <div id="quiz-o"></div>
-                    <div id="quiz-res" style="margin-top:10px; font-weight:bold;"></div>
+                <div id="quiz-container" class="hidden" style="background:#fffcf5; padding:20px; border-radius:10px; border:2px solid #eee;">
+                    <div id="quiz-active-area"></div>
                 </div>
             </div>
 
             <div id="tab-3" class="content">
-                <h2>Платформа туралы пікіріңіз</h2>
-                <textarea id="review-input" rows="4" placeholder="Ойыңызды бөлісіңіз..."></textarea>
-                <button class="btn" onclick="sendReview()" style="width: auto; padding: 10px 40px;">ЖІБЕРУ</button>
-                
-                <div class="reviews-list" id="reviews-list">
-                    </div>
+                <h2>Пікірлер мен Талқылау</h2>
+                <div style="background:#f0f0f0; padding:15px; border-radius:10px; margin-bottom:20px;">
+                    <textarea id="review-input" rows="3" placeholder="Сұрақ қойыңыз немесе пікір жазыңыз..." style="width:100%; border-radius:5px; border:1px solid #ddd; padding:10px; font-family:inherit; box-sizing:border-box;"></textarea>
+                    <button class="btn" onclick="sendReview()" style="width: auto; margin-top:10px;">Жіберу</button>
+                </div>
+                <div id="reviews-list"></div>
             </div>
         </main>
     </div>
 
 <script>
-    const db = {};
+    // --- 1. БАЗА ВОПРОСОВ (ОСНОВА) ---
+    // Сюда вы вставите свои вопросы
+    const db = {
+        "1": { type: "yesno", q: [
+            {q:"Абай бұл қарасөзінде ел ісіне араласудан шаршағанын айтады.", c:"Иә"},
+            {q:"Ол қарасөз жазуды ермек үшін бастағанын айтады.", c:"Иә"},
+            {q:"Абай өмір бойы тек өлең жазумен ғана айналысқанын айтады.", c:"Жоқ"},
+            {q:"Қарасөзінде ол бұрынғы билік ісіне көңілі толмайтынын білдіреді.", c:"Иә"},
+            {q:"Абай халыққа ақыл айту мақсатымен сөз жазатынын түсіндіреді.", c:"Иә"},
+            {q:"Бұл қарасөзде сауда жасау жолдары үйретіледі.", c:"Жоқ"},
+            {q:"Абай өз ойын кейінгі ұрпаққа қалдыруды көздейді.", c:"Иә"},
+            {q:"Қарасөзінде ол ғылым туралы терең талдау жасайды.", c:"Жоқ"},
+            {q:"Абай сөздерінің пайдасы тисе екен деген үміт айтады.", c:"Иә"},
+            {q:"Бұл қарасөз тек жастарға ғана арналған.", c:"Жоқ"}
+        ]},
+        "2": { type: "yesno", q: [
+            {q:"Абай 2-қарасөзінде қазақ халқының мінез-құлқын сынайды.", c:"Иә"},
+            {q:"Бұл қарасөзде басқа халықтардың іс-әрекеті туралы ой айтылады.", c:"Иә"},
+            {q:"Абай қазақтарды еңбекқор халық деп сипаттайды.", c:"Жоқ"},
+            {q:"Қарасөзде «бірлік жоқ» деген мазмұндағы ой кездеседі.", c:"Иә"},
+            {q:"Абай өз халқын тек мақтап, ешқандай мін айтпайды.", c:"Жоқ"},
+            {q:"Абайдың ойынша, қазақтар бос мақтанға жақын.", c:"Иә"},
+            {q:"Қарасөзде сауда-саттық пен кәсіп туралы пікір қозғалады.", c:"Иә"},
+            {q:"Абай басқа халықтарды барлық жағынан мінсіз деп көрсетеді.", c:"Жоқ"},
+            {q:"Бұл қарасөзде халықты түзелуге шақыру ниеті бар.", c:"Иә"},
+            {q:"Абай 2-қарасөзінде елдің болашағына алаңдамайды.", c:"Жоқ"}
+        ]},
+        "3": { type: "multi", q: [
+            {q:"Абай 3-қарасөзінде қандай нәрсені бірінші орынға қояды?", o:["Мал жинау","Ғылым мен білім","Сауда-саттық","Ермек"], c:1},
+            {q:"Қарасөзде Абайдың негізгі мақсаты не?", o:["Халықты сынау","Жастарға ақыл айту","Өлең жазу","Дінге үгіттеу"], c:1},
+            {q:"Абайдың ойынша, білімсіз адамның тағдыры қандай?", o:["Бай бола алады","Қараң, қиындыққа толы","Дүниеде атаққа ие","Еркін"], c:1},
+            {q:"Қарасөзде Абай адамдарға неге үйретеді?", o:["Көркем мінезді дамытуға","Мал көбейтуге","Сауда-саттыққа","Аспаздыққа"], c:0},
+            {q:"Абай 3-қарасөзде халықтың мінезі туралы не дейді?", o:["Барлығы мінсіз","Көпшілігінде кемшіліктер бар","Мал жинау керек","Сауда жасау маңызды"], c:1},
+            {q:"Абайдың ойынша жақсы адам болудың негізі неде?", o:["Ақшада","Білім мен тәрбиеде","Мал-мүлікте","Жарты жолда"], c:1},
+            {q:"Қарасөзде Абай елдің дамуы үшін не маңызды дейді?", o:["Мал жинау","Білім мен ғылым","Сауда-саттық","Өлең айту"], c:1},
+            {q:"Абай қарасөзінде тек қана қазақтардың мінезін сынай ма?", o:["Иә, тек қазақтар","Жоқ, жалпы адамгершілікке қатысты","Иә, бірақ шектеулі","Жоқ, тек өзге халықтарға"], c:1},
+            {q:"Қарасөзде білімнің пайдасы неде?", o:["Бай болу","Көркем мінез мен дұрыс өмір сүру","Саудада табыс","Ермек"], c:1},
+            {q:"Абай 3-қарасөзде елдің болашағына мән бере ме?", o:["Иә, өте мән береді","Жоқ, мән бермейді","Кейде ғана","Тек қана жеке адамдарға"], c:0}
+        ]},
+        "4": { type: "yesno", q: [
+            {q:"Абай 4-қарасөзінде адам бойындағы мінез-құлыққа көп көңіл бөледі.", c:"Иә"},
+            {q:"Қарасөзде Абай тек қазақтарды сынайды.", c:"Жоқ"},
+            {q:"Абайдың ойынша білім адамға керек емес.", c:"Жоқ"},
+            {q:"Қарасөзде жақсы адам болу үшін еңбек ету маңызды деп айтылады.", c:"Иә"},
+            {q:"Абай халықтың кемшіліктерін көрсетуден қашпайды.", c:"Иә"},
+            {q:"4-қарасөзде тек мал мен мүліктің маңызы ғана айтылған.", c:"Жоқ"},
+            {q:"Абай адамгершілік пен тәрбиеге баса назар аударады.", c:"Иә"},
+            {q:"Қарасөзде ғылым мен білімнің пайдасы жоқ деп айтылады.", c:"Жоқ"},
+            {q:"Абай 4-қарасөзде келесі ұрпаққа өнеге қалдыруды мақсат етеді.", c:"Иә"},
+            {q:"Қарасөзде тек көңіл көтеруге арналған ойлар жазылған.", c:"Жоқ"}
+        ]},
+        "5": { type: "multi", q: [
+            {q:"Абайдың айтуынша қазақтар көбінесе не үшін қам жейді?", o:["Ғылым үшін","Білім үшін","Мал үшін","Әділет үшін"], c:2},
+            {q:"Мәтін бойынша қазақтар мал табуды қалайша білмейді?", o:["Барлығын адал жолмен","Малдыларды алдап немесе мақтап","Тек сауда жасайды","Кәсібін дамытады"], c:1},
+            {q:"Қайғыны Абай мәтінде қалай суреттейді?", o:["Жас баладай","Көзден жас, тілден сөз","Ешқашан көрінбейді","Сауда арқылы"], c:1},
+            {q:"Жас бала мен ересек адамдардың айырмашылығы?", o:["Жас бала ұялмайды","Жас бала қызыл ошақтан қорқушы","Екеуі де бірдей","Жас бала мал жинайды"], c:1},
+            {q:"Мәтінде Абай қазақтардың мінезі туралы не дейді?", o:["Барлығы әділ","Малды болса, ұрлыққа да дайын","Білімді","Қулыққа бармайды"], c:1},
+            {q:"Қарасөзде келтірілген мақалдардың тақырыбы?", o:["Мал мен байлық","Ғылым мен білім","Әділет пен заң","Өнер мен мәдениет"], c:0},
+            {q:"Абай ұрлық, қулық-сұмдық туралы не дейді?", o:["Ешқашан жасамайды","Мал тапса, жасай береді","Тек сауда арқылы","Білім арқылы"], c:1},
+            {q:"Мәтін бойынша қазақтар қандай нәрсеге қорықпайды?", o:["Қызыл ошақтан","Тозақтан","Малдан","Жастардан"], c:1},
+            {q:"Абай жас баланы мысалға келтіргенде не дейді?", o:["Жас бала ұялса, жерге ене жаздайды","Жас бала мал жинайды","Жас бала әділ","Жас бала ғылымшыл"], c:0},
+            {q:"Мәтіннің соңында Абай қандай мәселені көтереді?", o:["Елімізді іздеп табу, әділетсіздік","Мал жинау","Ғылым дамыту","Сауда ұйымдастыру"], c:0}
+        ]},
+        "6": { type: "multi", q: [
+            {q:"«Өнер алды - бірлік, ырыс алды - тірлік» дегенде бірлік қайда болуы керек?", o:["Малға","Ақылға, ойға","Ат пен асқа","Киімге"], c:1},
+            {q:"Абайдың пікірінше, малға бірлік болса, не болады?", o:["Бірлік шығады","Антұрғандық басталады","Ештеңе болмайды","Ғылым дамиды"], c:1},
+            {q:"Бірлік үшін адамдар несібесін қайдан тілейді?", o:["Малдан","Құдайдан","Байдан","Қорқыныштан"], c:1},
+            {q:"Мал үшін бірлік орнатуға тырысқандар не істейді?", o:["Бір-бірін алдап, пәле іздейді","Ақылмен келіседі","Көмектеседі","Ештеңе істемейді"], c:0},
+            {q:"«Ырыс алды - тірлік» дегенде қандай тірлікті айтады?", o:["Иттегідей","Жан кеудеден шыққан тірлікті","Мал жинауды","Сауда жасауды"], c:1},
+            {q:"Жалқау және қылжақбас адам қалай сипатталады?", o:["Еңбекқор","Жанын сақтайды","Әзір тамақ, әзір ас, ішінде нас","Ғылымға құштар"], c:2},
+            {q:"Жан кеудеден шықпаған тірлік қандай салдарға әкеледі?", o:["Ғылым дамиды","Ахиретке дұшпан болып, еңбектен қашады","Мал көбейеді","Бірлік пайда болады"], c:1},
+            {q:"«Көкірегі, көңілі тірі болса…» дегенде нені меңзейді?", o:["Тек физикалық тірлік","Ақылмен ойлап, адал еңбек ету","Мал жинау","Сауда жасау"], c:1},
+            {q:"Қай адам «тірімін деме, онан да өлім артық» деп сипатталады?", o:["Адал еңбекшіл","Жан кеудеден шықпаған жалқау","Ғылымға құштар","Әділ"], c:1},
+            {q:"Мәтіннің негізгі ойы қандай?", o:["Бірлік пен тірлік ақыл мен жанға негізделуі керек","Мал маңызды","Ғылым екінші дәрежеде","Сауда қоғамды түзейді"], c:0}
+        ]},
+        "7": { type: "yesno", q: [
+            {q:"Жас бала туғанда тек тәннің құмарымен ғана туады.", c:"Жоқ"},
+            {q:"«Білсем екен, көрсем екен» деген құмарлық – жан құмарлығы.", c:"Иә"},
+            {q:"Тәннің құмары болмаса, жанның қуаты да өспейді.", c:"Иә"},
+            {q:"Дененің құмары жетсе, адам міндетті түрде ғылымға құштар болады.", c:"Жоқ"},
+            {q:"Ересек адам көбінесе жанды тәнге бас ұрғызады.", c:"Иә"},
+            {q:"Көкіректе сәуле жоқ адам адал еңбекшіл болады.", c:"Жоқ"},
+            {q:"Бала күнімізде біз білгіміз келіп, нәрсені зерттеп көргенбіз.", c:"Иә"},
+            {q:"Құмарлықты ғылымға бағыттамаса, адам надан болып қалады.", c:"Иә"},
+            {q:"Адам хайуаннан да жаман болмауы үшін тек мал жинау керек.", c:"Жоқ"},
+            {q:"Адам жан мен тәнді теңестіріп, ғылымды дұрыс пайдалану керек.", c:"Иә"}
+        ]},
+        "8": { type: "yesno", q: [
+            {q:"Ақылды үйрену және насихатты тыңдау барлық билер мен болыстарға тән қасиет.", c:"Жоқ"},
+            {q:"Билер мен болыстар өздерін түзеп, енді елді түзерлікке көңіл бөледі.", c:"Иә"},
+            {q:"Олардың қолы әрқашан барлық мәселені шешуге жетеді.", c:"Жоқ"},
+            {q:"Байлар көбінесе мал мен дәулетке ғана көңіл бөледі.", c:"Иә"},
+            {q:"Байлар үшін ғылым мен білім малдан қымбат емес.", c:"Иә"},
+            {q:"Ұры-залым адамдар да әдетте ақыл мен насихатты тыңдайды.", c:"Жоқ"},
+            {q:"Кедейлерге білім мен ғылымның қажеті жоқ деп көрінеді.", c:"Иә"},
+            {q:"Байлар мен билер барлық ақылды сөздерді бірден ұқып тыңдай алады.", c:"Жоқ"},
+            {q:"Халықтың көбінің ойында еш қайғы немесе мұң жоқ.", c:"Иә"},
+            {q:"Ақылды үйренуге тек аз адамдар қызығады.", c:"Иә"}
+        ]},
+        "9": { type: "yesno", q: [
+            {q:"Абай өздігінен қазақты жақсы көретінін толық сезінеді.", c:"Жоқ"},
+            {q:"Егер Абай қазақты жақсы көрсе, олардың жақсы қылықтарын көңілге қуат қылар еді.", c:"Иә"},
+            {q:"Абай қазақты жек көрсе, олармен сөйлеспеу керек деп ойлайды.", c:"Иә"},
+            {q:"Мәтінде Абай қазақтардың барлығын жөндеп, үйретуге үмітті.", c:"Жоқ"},
+            {q:"Абай өзінде бар қайрат пен жалынның өліп кеткенін сезеді.", c:"Иә"},
+            {q:"Абай әр әрекетін толық өз сөзі және өз күлкісі ретінде сезінеді.", c:"Жоқ"},
+            {q:"Абай өлу кезінде артқа алаңдамай, «әттегене-ай» деп қайғырмауды қалайды.", c:"Иә"},
+            {q:"Абай өз жүрегін қуыс деп сипаттайды, себебі үміті үзілген.", c:"Иә"},
+            {q:"Мәтінде Абай қазақты жек көруін дұрыс деп санайды.", c:"Жоқ"},
+            {q:"Абай өзінің сезімдерін анық сезінеді, ішкі тыныштыққа жеткен.", c:"Жоқ"}
+        ]},
+        "10": { type: "multi", q: [
+            {q:"Құдайдан бала тілеп, тек бала орнымды бассын деп күту:", o:["Дұрыс","Жақсы жол","Қате","Міндетті"], c:2},
+            {q:"Бала туғанда оның болашағы:", o:["Толығымен белгілі","Жақсы немесе жаман болатыны белгісіз","Мөлдір анық","Ата-анаға тәуелді"], c:1},
+            {q:"Баланың оқыған құраны тірлікте жақсылық жасамаса, оны құтқара ма?", o:["Иә","Жоқ","Кейде","Тек малға байланысты"], c:1},
+            {q:"Қартайғанда баланы асырау туралы тілектер:", o:["Орындалады","Кейде орындалады","Әрқашан бос сөз болуы мүмкін","Балаға байланысты"], c:2},
+            {q:"Баланың мал табарлық болып туатыны:", o:["Әрқашан мүмкін","Көп жағдайда екіталай","Еркіне байланысты","Әр балада бар"], c:1},
+            {q:"Бала дұрыс тәрбиеленбесе, алдамшыл болып өссе:", o:["Жақсы болады","Қайыр әкелмейді","Бай болады","Қолдан келмейді"], c:1},
+            {q:"Құдайдан мал тілеген адамға Абай не ұсынады?", o:["Малды адал кәсіпке жұмсау керек","Жинап қою керек","Тек байлыққа жарайды","Тәуелді болу керек"], c:0},
+            {q:"Ғылым мен білімсіз табылған мал немесе ғибадат:", o:["Құндылық әкеледі","Өлшемсіз маңызды","Ешқандай пайда әкелмейді","Артықшылық береді"], c:2},
+            {q:"Абайдың ойынша, көпшілік қазақтар малды қалай табады?", o:["Адал еңбекпен","Ғылыммен","Иттікпен","Сыймен"], c:2},
+            {q:"Мал мен күшті адал кәсіпке жұмсап, біліммен үйлестірген адам:", o:["Бай болмайды","Бай болады","Әдеттегі адамдай","Қаржыға тәуелді"], c:1}
+        ]},
+        "11": { type: "yesno", q: [
+            {q:"Елдің үнем қылып жүрген басты екі нәрсесі – ұрлық пен бұзақылық.", c:"Иә"},
+            {q:"Ұлықтар мен байлар халыққа пайдасын тигізеді.", c:"Жоқ"},
+            {q:"Қарапайым халық ұрлық жасап, ұрыдан мал алады.", c:"Иә"},
+            {q:"Бұзақылар байларды азғыруға әрекет етеді.", c:"Иә"},
+            {q:"Ұрыны тоқтату оңай.", c:"Жоқ"},
+            {q:"Байлар мен ұлықтар өздерін түзетеді.", c:"Жоқ"},
+            {q:"Қара халыққа ұрлық жасау оңай және дұрыс.", c:"Жоқ"},
+            {q:"Елдегі бұзақылық екі үлкен топқа бөлінеді: ұрлық пен азғыру.", c:"Иә"},
+            {q:"Ұлықтар әрқашан әділдікпен әрекет етеді.", c:"Жоқ"},
+            {q:"Бұл екі бүлік елге ортақ.", c:"Иә"}
+        ]},
+        "12": { type: "yesno", q: [
+            {q:"Ғибадатқа кіріскен адамға ғылым қажет емес.", c:"Жоқ"},
+            {q:"Ғибадаттың алғашқы шарты – иманның толық болуы.", c:"Иә"},
+            {q:"Ғибадат үйреніп жеткенше тоқтатылуы мүмкін.", c:"Жоқ"},
+            {q:"Ғибадатқа кірген адам өз-өзіне бақылау жасамауы мүмкін.", c:"Иә"},
+            {q:"Ғибадаты ғылымсыз толық болады.", c:"Жоқ"},
+            {q:"Ғибадатты үйрену барысында көңілге қалың бермеу – қате.", c:"Иә"},
+            {q:"Күзетшісіз иман бола береді.", c:"Жоқ"},
+            {q:"Адал ниетпен ғибадат жасау – маңызды.", c:"Иә"},
+            {q:"Ғибадатқа үйреніп жеткен соң оны тоқтату дұрыс.", c:"Жоқ"},
+            {q:"Ықыласыменен өз-өзіне көңіл бөлу – иманның белгісі.", c:"Иә"}
+        ]},
+        "13": { type: "yesno", q: [
+            {q:"Иман – Алла тағаланың бірлігіне және пайғамбарымызға сену.", c:"Иә"},
+            {q:"Иман тек таклиди болуы мүмкін, ақыл қажет емес.", c:"Жоқ"},
+            {q:"Иман келтіру үшін ақылы дәлел – испат жүргізу маңызды.", c:"Иә"},
+            {q:"Кітаптан оқу немесе молдалардан есту арқылы иман келтіруге болады.", c:"Иә"},
+            {q:"Таклиди иманға қарсы келгенде адамның көңілі қозғалуы қалыпты.", c:"Жоқ"},
+            {q:"Иманға беріктігі жоқ адам дұрыс иман иесі.", c:"Жоқ"},
+            {q:"Қорықпас жүрек, айнымас көңіл – иманды сақтау үшін қажет.", c:"Иә"},
+            {q:"Құдай тағала пенденің қандай да бір қателігін кешпейді.", c:"Иә"},
+            {q:"«Қылыш үстінде серт жоқ» деген мақалды орындау дұрыс.", c:"Жоқ"},
+            {q:"Иман тек жоғары жазылған екі түрден тұрады.", c:"Иә"}
+        ]},
+        "14": { type: "yesno", q: [
+            {q:"«Жүректі кісі» деген – тек батыр кісі дегенді білдіреді.", c:"Иә"},
+            {q:"Жүрек қасиеттері – рақымдылық, мейірбандық.", c:"Иә"},
+            {q:"Асықтық жүректің ісі емес, тек ақылдың ісі.", c:"Жоқ"},
+            {q:"Қазақтың «жүректісі» мақтауға лайық, оңай танылады.", c:"Жоқ"},
+            {q:"Ерлік – қиын жағдайға мойынсұну, әділетке бағыну.", c:"Иә"},
+            {q:"Қазақ жігіттері әрқашан ақылды, қайратты болады.", c:"Иә"},
+            {q:"Жаманшылыққа елітпек үшін адамдар бір-бірін қыздыра алады.", c:"Иә"},
+            {q:"Мықты жігіт деп ат қойылған адамдардың бәрі нағыз батыр.", c:"Жоқ"},
+            {q:"Ар мен ұятқа сүйенбей тәуір жігіт бола алады.", c:"Жоқ"},
+            {q:"Жүректің ісі тек батырлық қана емес, рақымдылықты да қамтиды.", c:"Иә"}
+        ]},
+        "15": { type: "multi", q: [
+            {q:"Ақылды кісі өз қызығушылығын қалай жұмсайды?", o:["Орынды іске","Босқа","Тек ойын-сауыққа","Алдауға"], c:0},
+            {q:"Есер кісі өмірін қалай өткізеді?", o:["Ақылмен","Босқа, бағасыз ісімен","Ғылымға беріліп","Жақсылыққа жұмсап"], c:1},
+            {q:"Жастықта қызыққа берілген адам неге жетеді?", o:["Ақылға","Мастыққа","Ғылымға","Адалдыққа"], c:1},
+            {q:"Мастық бойға қалай әсер етеді?", o:["Ақылды ашады","Бойды сынатуы мүмкін","Проблеманы шешеді","Жақсылыққа жетелейді"], c:1},
+            {q:"Есті кісілер бойын сындатпай не істейді?", o:["Ақылды қолдан жібермей ізденеді","Қызыққа беріліп шабады","Жұмыс істемейді","Бәріне мән бермейді"], c:0},
+            {q:"Өмірді дұрыс өткізу үшін не маңызды?", o:["Өзіне есеп беру","Мастыққа берілу","Қызық іздеу","Бөлшекке құмар болу"], c:0},
+            {q:"Күнінде өз-өзіне есеп бермеген адам қандай?", o:["Өмірін түсінеді","Өмірін түсіне алмайды","Ақылды","Жақсы"], c:1},
+            {q:"Есер кісілер өз қызығушылығын қалай басқарады?", o:["Ақылмен","Басқара алмайды","Орынды іске жұмсайды","Ғылымға бағыттайды"], c:1},
+            {q:"Ақылды кісінің қызығушылығы өмірге қалай әсер етеді?", o:["Өмірін қызықты әрі пайдалы етеді","Босқа өткізеді","Кедергі болады","Мастыққа жетелейді"], c:0},
+            {q:"Есеп алу арқылы адам не істей алады?", o:["Өзіне бағалау жасап, дұрыс өмір сүреді","Уақыт жоғалтады","Ойын ойнайды","Ақылсыз әрекет етеді"], c:0}
+        ]},
+        "16": { type: "yesno", q: [
+            {q:"Қазақтар құлшылығын Құдайға лайық деп қам жемейді.", c:"Жоқ"},
+            {q:"Саудагер мысалы арқылы Құдайдың іс-қылықтары сипатталған.", c:"Иә"},
+            {q:"Қазақтар тілін, дінін үйренуге көп көңіл бөледі.", c:"Жоқ"},
+            {q:"«Білгенім осы» – өз бетімен үйренбеудің мысалы.", c:"Иә"},
+            {q:"Қазақтар тілін өзге жұрттан бөлек жаратылған деп есептейді.", c:"Иә"},
+            {q:"Қазақтар тек өз бетімен ізденіп, қадам жасайды.", c:"Жоқ"},
+            {q:"Саудагердің мысалы адамдардың басқаларды қайталауы туралы.", c:"Иә"},
+            {q:"Қазақтар тілді тазартып, ойланып үйренуге уақыт бөледі.", c:"Жоқ"},
+            {q:"Адамдардың көбіне өз бетінше әрекет етпейтіні көрсетілген.", c:"Иә"},
+            {q:"«Тілімнің келмегенін қайтушы еді» – үйренуге көңіл бөлмеу мысалы.", c:"Иә"}
+        ]},
+        "17": { type: "multi", q: [
+            {q:"Қайрат өз ісін қандай мақсатқа арнайды?", o:["Ләззат табу","Орынсыз нәрселерге бой бермеу","Мал жинау","Көршілерді қызықтыру"], c:1},
+            {q:"Ақыл не үшін қажет?", o:["Көршілерді таңғалдыру","Мал табу","Жақсылық пен залалды тану","Ғылымды жоққа шығару"], c:2},
+            {q:"Жүректің міндеті неде?", o:["Мал жинау","Ғылымды білмеу","Тән мен жанға мекен ету","Қарсыласуға себеп болу"], c:2},
+            {q:"Ғылым үшеуін қалай үйлестіреді?", o:["Тек ақылға сүйеніп","Тек жүрекке сеніп","Қайрат, ақыл, жүректі бір кісідей қосып","Тек қайратпен"], c:2},
+            {q:"Қайраттың ерекшелігі неде?", o:["Күші мол, орнын таза ұстауға қауқарлы","Тек ғылымға сүйенеді","Еркіндікке мән бермейді","Мал жинауға ынталы"], c:0},
+            {q:"Ақылдың рөлі неде?", o:["Жүрекке бағыну","Мал жинау","Жақсылық пен жамандықты табу","Тек қайратқа сену"], c:2},
+            {q:"Жүрек қандай қасиеттерді шығарады?", o:["Тек күш","Әділет, рақым, мейірбаншылық","Тек ғылым білу","Тек мал жинау"], c:1},
+            {q:"Ғылым соңында қайсыны жақтайды?", o:["Ақылды","Қайратты","Жүректі","Мал жинаушыны"], c:2},
+            {q:"Үшеуін үйлестіргенде адам қандай болады?", o:["Малға бай","Қуатты, бірақ залалды","Қасиетті, топырағы көзге сүртерлік","Ғылымсыз"], c:2},
+            {q:"Ғылым үшеуін үйлестіргенде неге басымдық береді?", o:["Мал жинаушыға","Жүрекке","Ақылға","Қайратқа"], c:1}
+        ]},
+        "18": { type: "yesno", q: [
+            {q:"Адам баласына таза, кірсіз киіну дұрыс іс пе?", c:"Иә"},
+            {q:"Дәулетінен артық киіну адамға қуат береді деп дұрыс па?", c:"Жоқ"},
+            {q:"Кербез адам мүшесін түзетіп әуре бола ала ма?", c:"Иә"},
+            {q:"Кербез болу – ақыл мен ғылымға негізделген іс пе?", c:"Жоқ"},
+            {q:"Киімін көрсету арқылы елеулі болу масқаралық па?", c:"Иә"},
+            {q:"Кербез болу – адамның мінез-құлқына әсер етпейді ме?", c:"Жоқ"},
+            {q:"Адам баласы тек сыртқы келбетімен оздым деп ойлауы ақымақтық па?", c:"Иә"},
+            {q:"Кербездің ісі адамға оңтайлы, дұрыс іс пе?", c:"Жоқ"},
+            {q:"Адам баласы ақыл, ғылым, ар, мінез арқылы озуы мүмкін бе?", c:"Иә"},
+            {q:"Кербездіктің бәрі масқаралық емес пе?", c:"Жоқ"}
+        ]},
+        "19": { type: "yesno", q: [
+            {q:"Адам ата-анадан туа салысымен есті болып келеді ме?", c:"Жоқ"},
+            {q:"Естіп, көріп, ұстап, татып ескерген адам жақсы-жаманды таниды.", c:"Иә"},
+            {q:"Білгені мен көргені көп адам білімді бола алады.", c:"Иә"},
+            {q:"Естілердің сөзін ескермейтін адам да есті болады.", c:"Жоқ"},
+            {q:"Естілік тек өздігінен іске жарамайды.", c:"Иә"},
+            {q:"Жаман нәрседен сақтанбау адамның сөзін іске жаратады.", c:"Жоқ"},
+            {q:"Сөзді дұрыс естіп, түсінсе, ол адамға пайда береді.", c:"Иә"},
+            {q:"Сөздің рас-өтірігін тексермей ұғу маңызды емес.", c:"Жоқ"},
+            {q:"Өзін танитұғын адамды шошқаны баққанмен салыстыру дұрыс.", c:"Иә"},
+            {q:"Естіп-оқып білгеннің бәрі автоматты түрде іске жарайды.", c:"Жоқ"}
+        ]},
+        "20": { type: "yesno", q: [
+            {q:"Тағдырдың жарлығы адам өмірінде өзгермейді.", c:"Иә"},
+            {q:"Адамның жалығуы тағдырда бірге жаратылған қасиет емес.", c:"Жоқ"},
+            {q:"Адам өз бетінше жалығу қасиетін тапқан деп саналады.", c:"Жоқ"},
+            {q:"Жалығуды кейде ақылы түгел адам да жеңе алмайды.", c:"Иә"},
+            {q:"Тамақ, ойын, күлкі, мақтан – бәрінен адам жалықпайды.", c:"Жоқ"},
+            {q:"Дүние бірқалыпты болмай, адамның қуаты да бірқалыпты тұрмайды.", c:"Иә"},
+            {q:"Көп көрген, ойлы адам жалығудан құтылмайды.", c:"Иә"},
+            {q:"Жалығу қасиеті ақымақтықтың белгісі болып есептеледі.", c:"Жоқ"},
+            {q:"Жалығуды түсіну арқылы адам өмірдің мәнін бағалай алады.", c:"Иә"},
+            {q:"Дүниенің шолақтығын білген адам тіршіліктен де жалықса болады.", c:"Иә"}
+        ]},
+        "21": { type: "yesno", q: [
+            {q:"Адам баласы мақтаннан толық аман бола алады.", c:"Жоқ"},
+            {q:"Мақтанның екі түрі бар: үлкендік және мақтаншақтық.", c:"Иә"},
+            {q:"Үлкендік адамның өз ішінен өзін бағалауынан туындайды.", c:"Иә"},
+            {q:"Мақтаншақ адам тек өз бойындағы қасиеттерді ғана бағалайды.", c:"Жоқ"},
+            {q:"Ақылды адамдар өздерін зор есептейді, жарамсыз мінезден сақтанады.", c:"Иә"},
+            {q:"Жатқа мақтану – надандықтың белгісі болып есептелмейді.", c:"Жоқ"},
+            {q:"Ел ішінде мақтану – адамдықтың толық белгісі.", c:"Жоқ"},
+            {q:"Өз үйінде немесе ауылда мақтану – наданның наданы.", c:"Иә"},
+            {q:"Мақтаншақтар іс бойынша не дұрыс, не бұрыс екенін ескермейді.", c:"Иә"},
+            {q:"Ағайын ішінде мақтану адамның бағасын толық қамтамасыз етеді.", c:"Жоқ"}
+        ]},
+        "22": { type: "yesno", q: [
+            {q:"Қазақ ішінде байларды қадірлеуге болады, малының еркі өздерінде.", c:"Жоқ"},
+            {q:"Кей байлар малын ақымақтықтан немесе жалынып беріп жатады.", c:"Иә"},
+            {q:"Мырзаларды қадірлеуге болады, өйткені олар әділетті.", c:"Жоқ"},
+            {q:"Болыс пен биді құрметтеу үшін олардың билігі мен қасиеті керек.", c:"Иә"},
+            {q:"Мықтыны құрметтеу үшін, оның жақсылыққа да мықты болуы қажет.", c:"Иә"},
+            {q:"Есті кісіні құрметтеу үшін, ол әділет, ұят, нысапқа сай болуы керек.", c:"Иә"},
+            {q:"Ғаріп-қасар адамды құрметтеу – тек оның момындығына байланысты.", c:"Иә"},
+            {q:"Қу мен сұм адамдар тыныштық көрмейді және оларды құрметтеуге болмайды.", c:"Иә"},
+            {q:"Шын момын байларды аямай, олардың тілеуін тілеу керек.", c:"Иә"},
+            {q:"Автор басқаларды да сүйдік, қадірледік дейді.", c:"Жоқ"}
+        ]},
+        "23": { type: "yesno", q: [
+            {q:"Қазақтың қуанышы – біреудің жаманшылығын көріп қуану.", c:"Иә"},
+            {q:"Жұбаныш – көптің арасында болу және сол көптің қуанышына қосылу.", c:"Иә"},
+            {q:"Құдай тағала адамдардың жаманшылығына қуануымызды мақұлдайды.", c:"Жоқ"},
+            {q:"Жаманға қосылып, жақсы болуға болады.", c:"Жоқ"},
+            {q:"Жақсыға қосылып, жақсылық жасауға болады.", c:"Иә"},
+            {q:"Көпке қосылу әрқашан дұрыс әрі құдайлық әрекет.", c:"Жоқ"},
+            {q:"Бір адамның жаманшылығына көңілі разы болу – дұрыс емес.", c:"Иә"},
+            {q:"Елдің бәрі жұтқа ұшыраса, бұл бәріне дұрыс қуаныш болып саналады.", c:"Жоқ"},
+            {q:"Көптің бәрі дұрыс болмаса, бір дұрыс кісінің керегі жоқ деп айту қате.", c:"Иә"},
+            {q:"Қуаныш пен жұбаныш тек өзіміздің бойымыздан табылуы керек.", c:"Иә"}
+        ]},
+        "24": { type: "yesno", q: [
+            {q:"Жер жүзінде қазақтар саны екі миллионнан астам.", c:"Жоқ"},
+            {q:"Қазақ халқының достығы мен дұшпандығы басқа халықтарға ұқсамайды.", c:"Иә"},
+            {q:"Қазақтар бір-бірін аңдып, жаулап, ұрлап отырмайды.", c:"Жоқ"},
+            {q:"Дүниеде үш миллионнан артық халық бар қалаларды кезіп көргендер көп.", c:"Иә"},
+            {q:"Қазақтар бір-бірін аңдап, құртпай, тыныш өмір сүре алады.", c:"Жоқ"},
+            {q:"Қазақ арасында ұрлық, өтірік, өсек, қастық жоқ.", c:"Жоқ"},
+            {q:"Қазақтар өнер мен малды бөтен жақтан іздейді.", c:"Иә"},
+            {q:"Қазақтар әрқашан тура жолмен өмір сүреді.", c:"Жоқ"},
+            {q:"Қазақтар арасында бір-бірін қадап, бақылайтын адамдар бар.", c:"Иә"},
+            {q:"Қазақтар арасында тыныштық пен бейбіт өмір табу қиын.", c:"Иә"}
+        ]},
+        "25": { type: "multi", q: [
+            {q:"Балаларды оқыту қандай жағдайда дұрыс деп көрсетілген?", o:["Тек орысша оқытқанда","Құлшылық қыларлық, түркі танырлық таза оқыса","Ақша көп болғанда","Көршінің рұқсатымен"], c:1},
+            {q:"Қарны аш адамның көңілінде не бола алмайды?", o:["Ақыл, ар, ғылымға құмарлық","Жақсылыққа ынта","Мәдениетке сүйіспеншілік","Достық"], c:0},
+            {q:"Орыс ғылымын үйренудің пайдасы неде?", o:["Дүниені арзанырақ түсінеді","Байлыққа тез жетеді","Қазақтан озады","Еш пайдасы жоқ"], c:0},
+            {q:"Надан әке-шешесін, ағайынын бір қаққанға сату қандай қылық?", o:["Ақылдылық","Жорғалылық","Жақсылық","Сабыр"], c:1},
+            {q:"Қазаққа күзетші болудың дұрыс жолы қандай?", o:["Елімен, жұрт білгенді біліп, халыққа қосылу","Қорлыққа көну","Малды жасыру","Басқаның білімін қолдану"], c:0},
+            {q:"Неліктен кейбір қазақтар балаларын орысқа беруді жөн көреді?", o:["Орысша оқу арқылы білім алсын деп","Малын көбейтсін деп","Күш берсін деп","Мақтаныш үшін"], c:0},
+            {q:"Түпкі мақсат қандай?", o:["Баланың бала болып өсуі, пайдалы болуы","Тек бай болу","Молшылық","Мансап"], c:0},
+            {q:"“Мына мен айтқан жол - мал аяр жол емес” сөзі не білдіреді?", o:["Баланы оқыту дұрыс, малды адал табу маңызды","Малды жасыру керек","Тек орыс тілі керек","Ғылым қажет емес"], c:0},
+            {q:"Баланың білім алуы неге байланысты?", o:["Әкесі мал табуына","Ағайын пікіріне","Қарнының тоқ болуына","Мектеп сапасына"], c:2},
+            {q:"Автордың негізгі идеясы қандай?", o:["Баланы тәрбиелеу міндет, мал табу мен білім бірге жүруі керек","Тек мал маңызды","Орыс мектебі шешім","Оқытпау дұрыс"], c:0}
+        ]},
+        "26": { type: "multi", q: [
+            {q:"Қазақтың қуанышы көбінесе неден туындайды?", o:["Біреу балуан жықса, құс алса, ит ұстаса","Білім алған соң","Байлыққа жеткенде","Мал табқанда"], c:0},
+            {q:"Автордың айтуынша, қазақтар бір-бірін неге қызғанады?", o:["Басқаның өнері, жетістігі үшін","Ақылдылық үшін","Байлық үшін","Оқу үшін"], c:0},
+            {q:"Біреуді ыза қылу қандай қасиетке жатады?", o:["Шариғатта харам, ақылға теріс, шаруаға залал","Ақылдылық","Жақсылық","Мейірімділік"], c:0},
+            {q:"Жүйрік ат, қыран құс, иттің озып жығуы кімге байланысты?", o:["Адам өз өнерімен жасаған жоқ","Тек ең мықтыға","Жарыс заңына","Бақытқа"], c:0},
+            {q:"Надан ел не нәрсеге қуанбайды?", o:["Қуана бермейтін нәрсеге","Жақсылыққа","Білімге","Достыққа"], c:0},
+            {q:"Надан ел қуанғанда не істейді?", o:["Не айтып, не жасағанын білмей, мастыққа түседі","Сабырлы әрекет етеді","Ақылмен бағалайды","Басқаларды үйретеді"], c:0},
+            {q:"Ұялу туралы автор не дейді?", o:["Ұялғандары ұялмас нәрседен ұялады, ұяларлықтан ұялмайды","Ұялу орынды","Ұялмау керек","Ұялғандары дұрыс"], c:0},
+            {q:"Надандықтың әсері неде көрінеді?", o:["Қуанбас нәрсеге қуану, дұрыс емес жерден ұялу","Байлыққа құмарлық","Ғылымға ынта","Мансапқа ұмтылу"], c:0},
+            {q:"Надан адамдарды түзетуге бола ма?", o:["Көңілі жетсе де, әдетінен тоқтай алмайды","Әрдайым болады","Тек мектептен кейін","Тек ата-анасы арқылы"], c:0},
+            {q:"Қазақ әдетінен еріксіз қорыққанда не істейді?", o:["Өмірде ғана тоқтайды, өздігінен ақылмен тоқтамайды","Ақылмен тоқтайды","Жақсы жолды таңдайды","Үнемі өзгереді"], c:0}
+        ]},
+        "27": { type: "multi", q: [
+            {q:"Сократ хакім шәкіртіне не туралы айтып берді?", o:["Құдайға құлшылық ету туралы","Бәйге туралы","Мал жинау туралы","Жақсылық жасау туралы"], c:0},
+            {q:"Кім артықша ғажайыптануға лайық деп айтылды?", o:["Суретші","Жаратушы","Құлақшы","Арыстан"], c:1},
+            {q:"Аристодим нені түсінді?", o:["Жаратушының хикметі артық","Мал табу маңызды","Құстар маңызды","Өзіне ғана сену керек"], c:0},
+            {q:"Көздің адамға берілген мақсаты неде?", o:["Көрікті нәрселерден ләззат алу үшін","Жарысқа қатысу үшін","Сән үшін","Мал бағу үшін"], c:0},
+            {q:"Мұрнынан не үшін пайда табамыз?", o:["Дәмді, тәттіні сезу үшін","Жарысқа қатысу үшін","Көрік үшін","Ақша табу үшін"], c:0},
+            {q:"Аристодимнің сұрағы неден туған?", o:["Адамның өнері адамды таңғалдыруға лайық па деп","Мал жинауды түсіну","Құстарды бағалау","Достықты тексеру"], c:0},
+            {q:"Хайуан мен адамды салыстырғанда не айтылды?", o:["Адамға ақыл, ғылым және салахият берілген","Хайуан артық","Адам күшті","Хайуан ғылым үйретеді"], c:0},
+            {q:"Денеге не үшін қабақ, кірпік берілген?", o:["Көзді қорғау және пайдалы функциясы үшін","Сұлулық үшін","Жарыс үшін","Әшекей үшін"], c:0},
+            {q:"Аристодимнің қорытынды ойы қандай болды?", o:["Жаратушы артық ақыл иесі","Малды жинау керек","Адамдар тең","Хайуандар сұлтан"], c:0},
+            {q:"Адам құлшылық қылуға неге қарыздар?", o:["Жаратушының қамын көріп, махаббатынан","Өз мүддесі үшін","Мал табу үшін","Жарысқа қатысу үшін"], c:0}
+        ]},
+        "28": { type: "multi", q: [
+            {q:"Неліктен біреу бай, біреу кедей деп автор түсіндіреді?", o:["Еңбегінен","Құдай тағаланың жаратуынан/бұйрығынан","Білімнен","Биліктен"], c:1},
+            {q:"Құдай тағала біреуді бай, біреуді кедей қылады. Бұл нені көрсетеді?", o:["Теңсіздікті","Байлықты","Құдайдың әділдігі мен құдіреті","Қателікті"], c:2},
+            {q:"Пенде өз еңбегімен не табады?", o:["Барлығын қылушыға қылдырушы өзі шешеді","Тәуелсіз байлық","Жақсылық","Күш"], c:0},
+            {q:"Ақылы бар кісіге иман парыз болуы неден?", o:["Малының көптігіне","Құдай тағаланың жарлығына сәйкес","Білімге","Таңдауына"], c:1},
+            {q:"Ауру, ауыртқан нәрсені кім жаратты деп айтылды?", o:["Құдай","Табиғат","Қоғам","Адамдар"], c:0},
+            {q:"Ақылды еркіне жібермесек, неге әсер етеді?", o:["Малға","Діннің парызы мен мәні қалмайды","Жарысқа","Қоғамға"], c:1},
+            {q:"Байлықты, кедейлікті кім жаратты?", o:["Табиғат","Қоғам","Құдай","Адам"], c:2},
+            {q:"Ақыл тоқтамаған соң, не болатыны айтылды?", o:["Діннің мәні жоғалады","Ғылым дамиды","Қоғам әділетті","Байлық артады"], c:0},
+            {q:"Жаратылған әр іс неге байланысты?", o:["Адам еңбегіне","Қоғамға","Құдайдан келген жарлықпен","Кездейсоқтыққа"], c:2},
+            {q:"Ақыл мен иман арасындағы байланыс неде көрінеді?", o:["Ақылы бар кісі иманды тануы парыз","Өз еркімен шешіледі","Ақылсыз таниды","Иман сөзбен беріледі"], c:0}
+        ]},
+        "29": { type: "yesno", q: [
+            {q:"Қазақ мақалдарының бәрі іске татымды.", c:"Жоқ"},
+            {q:"«Жарлы болсаң, арлы болма» мақалында адал еңбекпен мал табу арлы іс делінген.", c:"Иә"},
+            {q:"«Қалауын тапса, қар жанады» мақалы қорлықпен өмір сүруді дұрыс дейді.", c:"Жоқ"},
+            {q:"«Атың шықпаса, жер өрте» мақалында арсыз әрекет сыналады.", c:"Иә"},
+            {q:"«Жүз күн атан болғанша, бір күн бура бол» мақалында пайдасыздық көрсетілген.", c:"Иә"},
+            {q:"«Алтын көрсе, періште жолдан таяды» - алтын үшін дұрыс жолдан таймау керек.", c:"Иә"},
+            {q:"«Ата-анадан мал тәтті» мақалында ата-ананың қадірі қымбат деп көрсетілген.", c:"Иә"},
+            {q:"Ата-ананы малға сатудың дұрыс іс екені айтылған.", c:"Жоқ"},
+            {q:"Қазақ мақалдарына білместікпен айтылған сөздеріне де сену керек.", c:"Жоқ"},
+            {q:"Барлық қазақ мақалдары адамшылыққа жарамайды.", c:"Жоқ"}
+        ]},
+        "30": { type: "yesno", q: [
+            {q:"«Қырт мақтан» ар мен есті білмейді.", c:"Иә"},
+            {q:"Қырт мақтандық кісі кең толғау, үлкен ойға ие.", c:"Жоқ"},
+            {q:"Қырт мақтандық кісі өлімге шыдай алады.", c:"Жоқ"},
+            {q:"«Өй, тәңірі-ай, қойшы әрі…» деп бұлғақтау – қырт мақтанның белгісі.", c:"Иә"},
+            {q:"Өлімге шыдамаймын деген де қазақ көрінбейді деп автор айтқан.", c:"Иә"},
+            {q:"Шын айғай көргенде, барлық адам кірер жерін таба алады.", c:"Жоқ"},
+            {q:"Айдындыратын адамдар ерекшелігі – шын ерлік пен қайрат иесі болуы.", c:"Иә"},
+            {q:"Малға мырзалығы, сертке тұрғыштық – айдындыратын белгілер.", c:"Иә"},
+            {q:"Ұялмас бетке талмас жақ береді – арсыз, ұятсыз белгілер.", c:"Иә"},
+            {q:"Қырт мақтандық кісінің сөзімен басқа адамдар айдындалады.", c:"Жоқ"}
+        ]},
+        "31": { type: "yesno", q: [
+            {q:"Естіген нәрсені ұмытпастыққа төрт түрлі себеп бар.", c:"Иә"},
+            {q:"Көкірегі байлаулы болу – ұмытпастық үшін маңызды емес.", c:"Жоқ"},
+            {q:"Естігенде немесе көргенде ғибрәтлану керек.", c:"Иә"},
+            {q:"Көңілденіп, тұшынып, ынтамен ұғу – маңызды емес.", c:"Жоқ"},
+            {q:"Сол нәрсені бірнеше уақыт қайтарып ойлаудың еш пайдасы жоқ.", c:"Жоқ"},
+            {q:"Көңілге бекіту – естіген нәрсені ұмытпастыққа қажет.", c:"Иә"},
+            {q:"Ой кеселдерінен қашу маңызды емес.", c:"Жоқ"},
+            {q:"Ой кеселдеріне салыну – ақыл мен ғылымды тоздырады.", c:"Иә"},
+            {q:"Уайымсыз салғырттық – ой кеселдерінің бірі.", c:"Иә"},
+            {q:"Бір нәрсеге құмарлыққа салыну – ұмытпастыққа көмектеседі.", c:"Жоқ"}
+        ]},
+        "32": { type: "multi", q: [
+            {q:"Білім-ғылымды үйренгісі келетін адам алдымен не істеуі керек?", o:["Үйрету","Білмек керек","Қызық үшін","Мақтану"], c:1},
+            {q:"Білім-ғылымды тек бір себепке үйрену дұрыс па?", o:["Иә","Мақсатқа байланысты","Жоқ","Кейде"], c:2},
+            {q:"Шын мейірленген көңіл білім-ғылымды қалай алады?", o:["Естіп қана","Тезірек қолға түсіреді","Еш әсер етпейді","Баяу"], c:1},
+            {q:"Ғылымды үйренудің басты мақсаты не болуы керек?", o:["Мақтану","Ақиқатқа жету","Байлық жинау","Әсер ету"], c:1},
+            {q:"Бахасшыл адам ғылымға қалай әсер етеді?", o:["Ақылды күшейтеді","Өзіне пайдалы","Мақсатты бұзады","Жақсы бағыт береді"], c:2},
+            {q:"Мақтаншақтық ғылым үйренуге жол бере ме?", o:["Иә","Тек білімділерге","Жоқ","Кейде"], c:2},
+            {q:"Әрбір хақиқатқа ижтиһатпен жеткен адам не істеуі керек?", o:["Білгенін сақтап, өлмеске дейін ұстау","Басқаларға сыймайды","Айтып қана қою","Қолданбайды"], c:0},
+            {q:"Ғылым мен ақылды сақтайтын мінездің беріктігі маңызды ма?", o:["Кейде","Иә","Қажет емес","Жоқ"], c:1},
+            {q:"Орынсыз сөзге немесе қызыққа шайқалып қалса не болады?", o:["Ғылым тез түседі","Ақыл күшейеді","Мінездің беріктігі бұзылады","Ештеңе болмайды"], c:2},
+            {q:"Уайымсыз салғырттық білім мен ақылды қорғауға кедергі бола ма?", o:["Иә, кедергі","Пайдалы","Жоқ, кедергі емес","Кейде"], c:0}
+        ]},
+        "33": { type: "multi", q: [
+            {q:"Қолөнер мен мал туралы Абайдың ойы қалай беріледі?", o:["Мал мәңгілік, өнер уақытша","Мал жұтайды, өнер жұтамайды","Тең дәрежеде","Қадірі жоқ"], c:1},
+            {q:"Аз-мұзы өнері бар адам не істейді?", o:["Өнерді асыра бағалап мақтанады","Жоққа шығарады","Еңбек етеді","Малға көңіл бөледі"], c:0},
+            {q:"Бір-екі қара табылып, еріншектікке салынып кету қандай кемшілік?", o:["Мақтаншақтық","Тамыршылдық","Еріншектік пен салдау-салғырттық","Алдамшылық"], c:2},
+            {q:"«Дарқансың ғой, өнерлісің ғой» деген мақтаулар қалай әсер етеді?", o:["Жақсы іске итермелейді","Пайдасыз алдауға, уақытты жоғалтуға","Тамыршылдыққа","Мал жинауға"], c:1},
+            {q:"Абай тамыршылдықты қандай сипаттайды?", o:["Пайдалы","Өтірік достық, уақытты босқа өткізу","Қолөнерді дамыту","Адал еңбек"], c:1},
+            {q:"Қолөнерлі адамды қазақ «әулие» деп неге атайды?", o:["Мал жинағандықтан","Адал еңбек етіп, алдаусыз тірлік жасағандықтан","Мақтаныш","Тамыршы"], c:1},
+            {q:"Шынайы өнерді кім жоғалта алмайды?", o:["Тамыршы","Еріншек","Адал еңбек еткен қолөнерлі адам","Мал жинаған"], c:2},
+            {q:"Біреуге алдану және алдату туралы Абай нені ескертеді?", o:["Табыс табуға болады","Уақытты жоғалтып, адамшылыққа зиян","Сену керек","Достарға керек"], c:1},
+            {q:"Мақтаншақтық пен пайдасыз мақтау неге апарады?", o:["Уақытқа","Өнерге","Алдауға сеніп, босқа мақтандыруға","Мал жинауға"], c:2},
+            {q:"Мәтіннің жалпы идеясы қандай?", o:["Мал жинау","Адал еңбек пен ұстамдылық, алдамшылыктан сақтану","Тамыршылдық","Мақтану"], c:1}
+        ]},
+        "34": { type: "multi", q: [
+            {q:"Абайдың айтуынша, адамдар өлім туралы қалай ойлайды?", o:["Қартайған сайын келеді","Өлім үнемі қартайтып келмейді, бәрі бірдей болмайды","Ұйықтау сияқты","Ешқашан келмейді"], c:1},
+            {q:"Ахирет пен дүниеге сенуде қазақтар қандай күйде болады?", o:["Ақылмен тексереді","Сенбейді","Әдетте нанады, нақты сенбейді","Бәріне сенеді"], c:2},
+            {q:"Адамның көңілінде екі қуаныш немесе екі қайғы бірдей болуы мүмкін бе?", o:["Мүмкін","Иә","Жоқ, бірдей болмайды","Ахиретте ғана"], c:2},
+            {q:"Дүниелік қуанышы ахиреттен артық болса, ол адам қандай?", o:["Дұрыс мұсылман","Пендеге берілгендер","Мұсылман емес","Адал еңбеккер"], c:2},
+            {q:"Дүниедегі туыс, мал, байлық пен ахиреттегі сұралу туралы ойы?", o:["Бәрі маңызды, бірақ рахаты бірдей емес","Ахиретке қажет жоқ","Мал артық","Дүние маңызды"], c:0},
+            {q:"Адамдар бір-біріне күндестік қылуы немесе көрсеқызарлық жасауы жөн бе?", o:["Иә","Жоқ, бұл дұрыс емес","Кейде","Байларға"], c:1},
+            {q:"Құдайға емес, пендеге тілеу жасау неге дұрыс емес?", o:["Жандандырады","Бұл құдайға айтылатын сөз болмайды","Мал жинатады","Міндетті"], c:1},
+            {q:"Дүниелік пен ахиреттегі нәрселерді бірдей бағалау мүмкін бе?", o:["Иә","Жоқ, мүмкін емес","Кейде","Байлар үшін"], c:1},
+            {q:"Адамның өзі үшін және өзгелер үшін жасаған таласы дұрыс па?", o:["Иә","Жоқ, ақылы мен ғылымы жоқ болса, дұрыс емес","Туысқа","Малға"], c:1},
+            {q:"Мәтіннің негізгі ойы қандай?", o:["Дүниелік рахат","Ахирет пен дүниені тең қойып, ақылсыздықтан сақтану","Ахирет байларға","Күндестік"], c:1}
+        ]},
+        "35": { type: "yesno", q: [
+            {q:"Махшарда құдай тағала адамдарды дүниеге және ахиретке ниетіне қарай бөледі.", c:"Иә"},
+            {q:"Дүние үшін әрекет еткен адамдар ахиретте құрмет пен сыйақы алады.", c:"Жоқ"},
+            {q:"Шынайы ниетпен құдай разылығын іздеген адамдарға арнайы орын дайын.", c:"Иә"},
+            {q:"Дүние үшін әрекет еткен адамның өнері махшарда да бағаланады.", c:"Жоқ"},
+            {q:"Махшарда шафағат тек достары үшін беріледі.", c:"Жоқ"},
+            {q:"Дүниеде атақ пен сый үшін әрекет жасау шын ниетпен тең болып саналады.", c:"Жоқ"},
+            {q:"Құдай махшарда адамдарға тек жазалау арқылы жауап береді.", c:"Жоқ"},
+            {q:"Іші еріп, ынтық болған достарға шафағат беру мүмкіндігі бар.", c:"Иә"},
+            {q:"Ахирет үшін құдай разылығын жасағандардың өмірі сарып етілмейді.", c:"Иә"},
+            {q:"Дүние үшін әрекет жасағандардың орны достары арқылы өзгеруі мүмкін.", c:"Жоқ"}
+        ]},
+        "36": { type: "yesno", q: [
+            {q:"Ұят – адамның иманының бір мүшесі болып есептеледі.", c:"Иә"},
+            {q:"Нағыз ұят шариғатқа, ақылға немесе абиұрлы бойға теріс әрекетте болады.", c:"Иә"},
+            {q:"Баланың немесе жақсы адамның алдында ұялу шын ұятқа жатады.", c:"Жоқ"},
+            {q:"Ұят екі түрге бөлінеді: бөтен адам үшін және өзі үшін.", c:"Иә"},
+            {q:"Өз қылығың үшін ұялған кезде, оны бөтен білмесе, ұят болмайды.", c:"Жоқ"},
+            {q:"Нағыз ұят күшті адамдарды ұйқыдан және тамақтан қалдыруы мүмкін.", c:"Иә"},
+            {q:"Ұялмаған адамға иманы бар деп айтуға болады.", c:"Жоқ"},
+            {q:"Ұят сезімі адамның өз бойындағы адамшылығын көрсетеді.", c:"Иә"},
+            {q:"Біреу істеген нәрседен ұялған кезде, ол тек сыртқы қысымнан ұялады.", c:"Жоқ"},
+            {q:"Ұялмаған адам өз ісіне қарапайым түсінікпен қарап, қысылмайды.", c:"Иә"}
+        ]},
+        "37": { type: "multi", q: [
+            {q:"Адамның адамшылығы неден білінеді?", o:["Істі қалай бастағанынан","Бітіргенінен","Мал жинауынан","Беделінен"], c:0},
+            {q:"Көңілдегі көрікті ой ауыздан шыққанда не болады?", o:["Өңі қалады","Өңі қашады","Көңілі жақсарады","Құдайға жақындайды"], c:1},
+            {q:"Хикмет сөздерді надан адамға айтқанда не болуы мүмкін?", o:["Көңіл уанады","Көңіл өшіреді","Екеуі де мүмкін","Жақсылық болады"], c:2},
+            {q:"Абайдың сөзінше, адамның бауыры кім?", o:["Әкесі","Баласы","Досы","Дүние иесі"], c:1},
+            {q:"Өзің үшін еңбек етсең, сен қалай боласың?", o:["Құл","Өзі үшін оттаған хайуанның бірі","Құдай сүйген","Сүйікті"], c:1},
+            {q:"Адам баласын не өсіреді?", o:["Әкесі","Жамандығы","Заманы","Досы"], c:2},
+            {q:"Жаман досқа қатысты Абай не дейді?", o:["Көлеңке сияқты, қашып құтыла алмайсың","Қорғаушы","Өсиет беруші","Әсер етпейді"], c:0},
+            {q:"Бағың өскенше тілеуіңді кім тілейді?", o:["Өзің","Ел де, өзің де","Ел","Досың"], c:1},
+            {q:"Екпіндеп ұшып қыран да, ерінбей еңбектеп жылан да шығады. Мәні?", o:["Қыран жетеді","Еңбек пен қажырлы еңбек жеміс береді","Жылан шыдамды","Қыран ұшпайды"], c:1},
+            {q:"Абайға сәйкес, ер артық сұраса да…", o:["Азға разы болады","Көпке разы","Ешқашан разы емес","Бөлісе алмайды"], c:0}
+        ]},
+        "38": { type: "multi", q: [
+            {q:"Адам ұғылының мінездері неден басталады?", o:["Ғылым мен ақылдан","Мал мен дүниеден","Дос пен көршіден","Жеке қызығушылықтан"], c:0},
+            {q:"Баланың ғылым-білімге махаббаты қалай пайда болады?", o:["Өздігінен","Зорлықпен немесе алдаумен үйір қылу арқылы","Ата-анамен","Достармен"], c:1},
+            {q:"Қиянатшыл балалардың мінезі қандай?", o:["Талапты","Ғылымға, ұстазға және иманға қиянатшыл","Ғылымға құмар","Адал"], c:1},
+            {q:"Адамның ғылым-білімі ненің құмарлығынан табылады?", o:["Малға","Құдайға","Хақиқатқа","Досқа"], c:2},
+            {q:"Ғылым-білімнің хақиқаты табылмайтын махаббат түрі қандай?", o:["Мал мен мақтанға махаббат","Хақиқат махаббаты","Аллаға махаббат","Ғылымға махаббат"], c:0},
+            {q:"Адам баласын өсіруде махаббат пен ғадаләттің рөлі қандай?", o:["Күшті қылады","Ниетінде шынайылық пен әділет орнатады","Білім береді","Мал жинауға үйретеді"], c:1},
+            {q:"Адамды надандық, еріншектік, залымдықтан сақтау үшін не қажет?", o:["Ғылым мен махаббат","Ақыл мен байлық","Жақсы ұстаз","Дос пен көрші"], c:0},
+            {q:"Нағыз иман қалай болады?", o:["Инанумен","Ғадаләт пен шапағат арқылы толық көрініс тапса","Ғылым арқылы","Дүниелік пайда үшін"], c:1},
+            {q:"Ғалым мен хакімнің басты ерекшелігі неде?", o:["Ғалымдардың нақлияты, хакімдердің ғақлияты бар","Бәрін біледі","Пайғамбарға бағынады","Ғылымға құмар"], c:0},
+            {q:"Адам баласы үшін құдай тағаланың жаратқан дүниесі не үшін?", o:["Малға","Пайда мен рахатқа","Адам баласының пайдасына, өсіп-өнуіне","Білім алуға"], c:2}
+        ]},
+        "39": { type: "yesno", q: [
+            {q:"Ата-бабаларымыздың білім мен күтімі замандастарымыздан төмен болды ма?", c:"Иә"},
+            {q:"Ата-бабаларымыздың мінезінде тек бір ғана жақсы қасиет болды ма?", c:"Жоқ"},
+            {q:"Мәтінде айтылған бірінші жақсы мінез – әділдік пе?", c:"Иә"},
+            {q:"Халық биліктегілерді сынауға тікелей араласты ма?", c:"Жоқ"},
+            {q:"Екінші жақсы мінез – намысқорлық болып саналады ма?", c:"Иә"},
+            {q:"Намысқорлық қасиеті туыстар мен ағайын арасындағы араздықты арттырады ма?", c:"Жоқ"},
+            {q:"Қазіргі адамдардың достығы мен дұшпандығы пейіл мен адалдыққа негізделген бе?", c:"Жоқ"},
+            {q:"Ата-бабаларымыздың әділдігі бауырлары мен малына қамқор болуымен байланысты ма?", c:"Иә"},
+            {q:"Мәтінде қазіргі адамдардың өнері адамшылыққа ұқсамайтыны айтылған ба?", c:"Иә"},
+            {q:"Ата-бабалардың әділдік пен намысқорлық қасиетін сақтау қажет емес пе?", c:"Жоқ"}
+        ]},
+        "40": { type: "yesno", q: [
+            {q:"Өлген адамның жамандығы жоқ, ал тірі адам жамандауға бейім деп айтылған ба?", c:"Иә"},
+            {q:"Қайраты кеткен шалдар мен жас адамдар бәрі бір-бірімен бітім жасайды ма?", c:"Жоқ"},
+            {q:"Бір елде адамдар туғандай көріп, кейін қайта қашатыны айтылған ба?", c:"Иә"},
+            {q:"Өз елін мақтаймын деп, шетелдіктерді көргенде өтірік мақтау жасайтындар бар ма?", c:"Иә"},
+            {q:"Баласына пәрмен еткен қазақ кейін суық қарайды деп айтылған ба?", c:"Иә"},
+            {q:"Ағайын тойларда немесе өлімде адалдық көрсетпей, ұрлыққа жол табады ма?", c:"Иә"},
+            {q:"Дос адам дұшпан ықпалына тез ұшырайды деп айтылған ба?", c:"Иә"},
+            {q:"Көпшілік шын ақыл айтатын адамдарды оңай табады ма?", c:"Жоқ"},
+            {q:"Тыныштық іздеп жүрген жұрт тыныштыққа тез үйреніп кетеді ме?", c:"Жоқ"},
+            {q:"Қазақтар шын сөзге сенбей, өтірікке тез елегі бар ма?", c:"Иә"}
+        ]},
+        "41": { type: "yesno", q: [
+            {q:"Қазаққа ақыл беріп, түзеткісі келген адамға үлкен билік қажет пе?", c:"Иә"},
+            {q:"Жастарды медреселерге жіберіп, ғылым жолдарын үйрету маңызды ма?", c:"Иә"},
+            {q:"Қыздарды дін үйренуге жіберу қажет емес пе?", c:"Жоқ"},
+            {q:"Ақыл беруші адамның есепсіз бай болуы керек пе?", c:"Иә"},
+            {q:"Қазақтарды паралап көндірмей-ақ, ақылмен ғана түзетуге болады ма?", c:"Жоқ"},
+            {q:"Қазақтағы надандық атадан, ананың сүтінен пайда болады ма?", c:"Иә"},
+            {q:"Қазақтар барлық жаңа нәрсеге қызығушылық танытады ма?", c:"Жоқ"},
+            {q:"Қазақтар сөзді көңілі алаңсыз тыңдай алады ма?", c:"Жоқ"},
+            {q:"Ақылменен, жырлап немесе сырлап айтса да, қазақты түзету қиын ба?", c:"Иә"},
+            {q:"Надандық адамның адамшылығынан кетпеген бе?", c:"Жоқ"}
+        ]},
+        "42": { type: "multi", q: [
+            {q:"Қазақтың жаманшылыққа үйір болу себебі қандай?", o:["Дәстүрлі білім","Жұмыстың жоқтығы","Діни білім аз","Ата-баба мінезі жоқ"], c:1},
+            {q:"Адал еңбекке салынған адам не көрмейді?", o:["Иттей қорлық","Қиыншылық","Жұмыссыздық","Бәсекелестік"], c:0},
+            {q:"Малын дұрыс бағамай, ұры-бөріге жем болған кедейлерге қалай қарайды?", o:["Шыдамайды","Қолдайды","Тыныш қалады","Ынтымақ жасайды"], c:0},
+            {q:"Қазіргі қазақтың мақтанышы не болып көрсетілген?", o:["Байлық пен ақыл","Арыз беру мен алдау","Достық пен бірлік","Шындық пен әділдік"], c:1},
+            {q:"Қоғамдағы бай өз мінезін қалай ұстайды?", o:["Дұрыс","Сенбейді, әрекеті дұрыс емес","Барлығын тыңдайды","Адал еңбекке салынады"], c:1},
+            {q:"Өнерлі адамдар қалай әрекет етеді?", o:["Қулыққа қосылады","Пәле шығаруға пысық","Мал бақпайды","Адал еңбекке салынбайды"], c:1},
+            {q:"Қазіргі қазақтың мақтанышы қай нәрсеге байланысты емес?", o:["Арыз беру","Ақыл мен абырой","Желөкпелеушілік","Кәсіби еңбек"], c:3},
+            {q:"Бай мен орташа адамдар арасындағы түсіністік қандай?", o:["Мол","Сенімсіздікке негізделген","Толық ынтымақ","Адалдықпен"], c:1},
+            {q:"Қоғамдағы адамдардың әрекеті неге негізделген?", o:["Сенімге","Қулыққа","Ақыл, тілек және әрекетке","Сыйластыққа"], c:2},
+            {q:"Қоғамдағы сенімсіздік неден туындайды?", o:["Адалдықтың жоқтығынан","Бай мен кедей айырмашылығы","Байлардың мінезінен","Елдің еңбексіздігінен"], c:2}
+        ]},
+        "43": { type: "multi", q: [
+            {q:"Адам ұғылы екі нәрседен тұрады. Ол қандай?", o:["Тән және ақыл","Тән және жан","Жан және рух","Ақыл және ғылым"], c:1},
+            {q:"«Жибили» деген қуат қай нәрселерге қатысты?", o:["Ақыл мен ғылым","Таным мен тәжірибе","Тәннің күнделікті қажеттері","Жанның тазалығы"], c:2},
+            {q:"«Кәсиби» қуат дегеніміз не?", o:["Таным мен тәжірибе","Ақыл, ғылым","Мансапқа ұмтылыс","Мақтаншақтық"], c:1},
+            {q:"Көп білу, көп оқу не үшін маңызды?", o:["Пайдалы тәжірибе үшін","Ақыл мен ғылым қуатын дамыту үшін","Мақтану үшін","Мал жинау үшін"], c:1},
+            {q:"Үш артық қуаттың бірі «подвижной элемент» нені білдіреді?", o:["Жанның тұрақтылығы","Ақыл қуатының тез қозғалуы","Танымды жинау","Жүректің тазалығы"], c:1},
+            {q:"«Сила притягательная однородного» дегеніміз не?", o:["Ұқсас нәрселерді тексеру қуаты","Таным мен тәжірибе","Жанның қуаты","Ақыл мен қайрат"], c:0},
+            {q:"«Впечатлительность сердца» қандай қасиетке байланысты?", o:["Жанның тазалығы мен жүректің айнасы","Ақыл мен ғылым","Мансап сүйгіштік","Таным"], c:0},
+            {q:"Ақыл және қайрат неге қажет?", o:["Танымды толықтыру үшін","Үш артық қуатты дұрыс бағыттау үшін","Мансапқа жету үшін","Мал жинау үшін"], c:1},
+            {q:"Ақыл мен қайрат жеткіліксіз болса не болады?", o:["Адам бай болады","Адамшылықтан кетеді","Ақыл күшейеді","Жан қуаты жоғарлайды"], c:1},
+            {q:"Бағанағы үш артық қуатты сақтамау неге әкеледі?", o:["Танымның артуына","Жан тазалығына","Адамшылықтан шығуға","Мансапқа"], c:2}
+        ]},
+        "44": { type: "yesno", q: [
+            {q:"Адам баласының ең жаманы – талапсыз адам.", c:"Иә"},
+            {q:"Абайдың айтуынша, адам «бәрекелді» деген мақтауды қаламайды.", c:"Жоқ"},
+            {q:"Адам көбіне өзімен жолдас, сырлас адамдардан мақтау күтеді.", c:"Иә"},
+            {q:"Талаптың ішінде адам көбінесе байлық емес, қадір іздейді.", c:"Иә"},
+            {q:"Мал қуған адам арамдық пен сараңдыққа бармайды.", c:"Жоқ"},
+            {q:"«Мал тапқан ердің жазығы жоқ» деген түсінік адамдыққа сай деп бағаланады.", c:"Жоқ"},
+            {q:"Кей адамдар ер, қажы, молда, білгіш атануға талап қылады.", c:"Иә"},
+            {q:"Кітап арқылы ізденген талап көкіректі тазалауды қажет етпейді.", c:"Жоқ"},
+            {q:"Қазақтың бетіне қарап талап ету – халықтың көңіліне қарай әрекет жасау.", c:"Иә"},
+            {q:"Абайдың ойынша, шынайы талап ішкі тазалық пен білімге негізделуі керек.", c:"Иә"}
+        ]},
+        "45": { type: "yesno", q: [
+            {q:"Абай Құдайдың барлығына дәлел ретінде барлық халықтың бір Құдай бар деп келуін айтады.", c:"Иә"},
+            {q:"Әртүрлі діндердің бәрі махаббат пен әділетті Құдайға лайық көреді.", c:"Иә"},
+            {q:"Адам өз жанынан ғылым шығара алады деп айтылады.", c:"Жоқ"},
+            {q:"Адам – жаратушы емес, жаратылған пенде деп көрсетіледі.", c:"Иә"},
+            {q:"«Инандым, сендім» деу – өзгелерді де міндетті түрде сендіру дегенді білдіреді.", c:"Жоқ"},
+            {q:"Адамшылықтың негізі – махаббат, әділет және сезім.", c:"Иә"},
+            {q:"Махаббат пен әділеттің қажет емес жері бар деп айтылады.", c:"Жоқ"},
+            {q:"Ғадаләт пен махаббат кімде көбірек болса, сол кісі ғалым, ғақил болады.", c:"Иә"},
+            {q:"Адам тек көзбен көріп, ақылмен біліп, жаратылған нәрсені таниды.", c:"Иә"},
+            {q:"Айғыр мен биеде махаббат пен сезім жоқ деп айтылады.", c:"Жоқ"}
+        ]}
+    };
+
+    // Автоматическое заполнение пустых слов, чтобы код не сломался
+    // (Не трогайте этот цикл, он создает заглушки для всех 45 слов)
     for(let i=1; i<=45; i++) {
-        db[i] = {
-            txt: `${i}-ші қара сөз мәтіні. Абай бұл жерде білім, еңбек және адамгершілік туралы терең толғаныс айтады.`,
-            q: `${i}-ші қара сөз бойынша: Абайдың айтқан басты қасиеті не?`,
-            o: ["Жалқаулық", "Ғылым мен Білім", "Мақтану"],
-            c: 1
-        };
+        const k = i.toString();
+        if(!db[k]) {
+            db[k] = { 
+                type: "yesno", 
+                q: [{ q: `${i}-ші сөз бойынша тест сұрақтарын енгізіңіз...`, c: "Иә" }] 
+            };
+        }
     }
 
+    // --- СИСТЕМНЫЕ ПЕРЕМЕННЫЕ ---
+    let currentUser = null;
+    let isAdmin = false;
+    let currentQuizIndex = 0;
+    let score = 0;
+
+    // --- ЗАПУСК ---
     window.onload = () => {
-        const s1 = document.getElementById('soz-select');
-        const s2 = document.getElementById('comic-select');
-        const s3 = document.getElementById('quiz-select');
+        initSystem();       
+        populateSelects();  
+        
+        // Проверка сессии (если уже вошел)
+        const savedUser = JSON.parse(localStorage.getItem('abai_session'));
+        if (savedUser) {
+            // Если есть сессия, пропускаем интро и логин
+            document.getElementById('intro-screen').classList.add('hidden');
+            loginSuccess(savedUser.name, savedUser.role);
+        } else {
+            // Если нет, показываем печатную машинку
+            startType();
+        }
+    };
+
+    function startType() {
+        const m = "Абай әлеміне қош келдіңіз!";
+        let i = 0;
+        function t() {
+            if(i < m.length) { 
+                document.getElementById("type-text").innerHTML += m.charAt(i); 
+                i++; 
+                setTimeout(t, 50); 
+            } else { 
+                document.getElementById("start-btn").style.display="inline-block"; 
+            }
+        }
+        t();
+    }
+
+    function goToAuth() {
+        document.getElementById('intro-screen').classList.add('hidden');
+        document.getElementById('auth-screen').classList.remove('hidden');
+    }
+
+    function initSystem() {
+        // Создаем админа по умолчанию
+        let users = JSON.parse(localStorage.getItem('abai_users') || "{}");
+        if (!users['admin']) {
+            users['admin'] = { pass: '12345', role: 'admin' };
+            localStorage.setItem('abai_users', JSON.stringify(users));
+        }
+    }
+
+    function populateSelects() {
+        const s1 = document.getElementById('soz-select'), s2 = document.getElementById('comic-select'), s3 = document.getElementById('quiz-select');
         [s1, s2, s3].forEach(s => s.add(new Option("--- Таңдаңыз ---", "")));
         for(let i=1; i<=45; i++) {
             s1.add(new Option(i + "-ші қара сөз", i));
             s2.add(new Option(i + "-ші комикс", i));
             s3.add(new Option(i + "-ші тест", i));
         }
+    }
 
-        const user = localStorage.getItem('userName');
-        if (user) { showApp(user); } else { startType(); }
-        renderReviews();
-    };
-
-    function startType() {
-        const m = "Ассалаумағалейкум! Абайдың 45 қара сөзін меңгеруге арналған интерактивті платформаға қош келдіңіз.";
-        let i = 0;
-        function t() {
-            if(i < m.length) { document.getElementById("type-text").innerHTML += m.charAt(i); i++; setTimeout(t, 35); }
-            else { document.getElementById("start-btn").style.display="inline-block"; }
+    // --- ЛОГИН / РЕГИСТРАЦИЯ ---
+    function toggleAuth(mode) {
+        document.getElementById('auth-msg').innerText = "";
+        if (mode === 'register') {
+            document.getElementById('login-form').classList.add('hidden');
+            document.getElementById('register-form').classList.remove('hidden');
+        } else {
+            document.getElementById('register-form').classList.add('hidden');
+            document.getElementById('login-form').classList.remove('hidden');
         }
-        t();
     }
 
-    function showLogin() { document.getElementById('welcome').classList.add('hidden'); document.getElementById('login').classList.remove('hidden'); }
-    
-    function login() {
-        const n = document.getElementById('user-name').value;
-        const p = document.getElementById('user-pass').value;
-        if(n.length >= 2 && p.length >= 3) {
-            localStorage.setItem('userName', n);
-            showApp(n);
-        } else { document.getElementById('err').innerText = "Деректерді толтырыңыз!"; }
+    function handleLogin() {
+        const u = document.getElementById('login-username').value.trim();
+        const p = document.getElementById('login-password').value.trim();
+        const msg = document.getElementById('auth-msg');
+
+        if (!u || !p) { msg.innerText = "Толықтырыңыз!"; return; }
+
+        let users = JSON.parse(localStorage.getItem('abai_users') || "{}");
+
+        if (users[u] && users[u].pass === p) {
+            loginSuccess(u, users[u].role);
+        } else {
+            msg.innerText = "Логин немесе құпиясөз қате!";
+        }
     }
 
-    function showApp(n) {
-        document.getElementById('welcome').classList.add('hidden');
-        document.getElementById('login').classList.add('hidden');
+    function handleRegister() {
+        const u = document.getElementById('reg-username').value.trim();
+        const p = document.getElementById('reg-password').value.trim();
+        const msg = document.getElementById('auth-msg');
+
+        if (!u || !p) { msg.innerText = "Толықтырыңыз!"; return; }
+        if (u.length < 3) { msg.innerText = "Логин тым қысқа!"; return; }
+
+        let users = JSON.parse(localStorage.getItem('abai_users') || "{}");
+
+        if (users[u]) {
+            msg.innerText = "Бұл логин бос емес!";
+        } else {
+            users[u] = { pass: p, role: 'student' };
+            localStorage.setItem('abai_users', JSON.stringify(users));
+            alert("Тіркелу сәтті өтті! Енді кіріңіз.");
+            toggleAuth('login');
+        }
+    }
+
+    function loginSuccess(username, role) {
+        currentUser = username;
+        isAdmin = (role === 'admin');
+
+        localStorage.setItem('abai_session', JSON.stringify({ name: username, role: role }));
+
+        document.getElementById('auth-screen').classList.add('hidden');
         document.getElementById('app').classList.remove('hidden');
-        document.getElementById('user-display').innerText = n;
+        
+        document.getElementById('user-display').innerText = username;
+        if (isAdmin) {
+            document.getElementById('admin-badge').classList.remove('hidden');
+        } else {
+            document.getElementById('admin-badge').classList.add('hidden');
+        }
+        
+        updateProgressUI();
+        renderReviews();
     }
 
+    function logout() {
+        localStorage.removeItem('abai_session');
+        location.reload();
+    }
+
+    // --- НАВИГАЦИЯ ---
     function tab(n) {
         document.querySelectorAll('.content').forEach((c, i) => c.classList.toggle('active', i === n));
         document.querySelectorAll('.nav-link').forEach((l, i) => l.classList.toggle('active', i === n));
     }
-
     function move(dir, id) {
         const s = document.getElementById(id);
         let next = s.selectedIndex + dir;
-        if(next >= 1 && next < s.options.length) {
-            s.selectedIndex = next;
-            s.dispatchEvent(new Event('change'));
-        }
+        if(next >= 1 && next < s.options.length) { s.selectedIndex = next; s.dispatchEvent(new Event('change')); }
     }
 
-    function loadSoz(n) {
+    // --- КОНТЕНТ ---
+    function loadContent(n) {
         const v = document.getElementById('soz-view');
         if(!n) { v.innerHTML = ""; return; }
-        v.innerHTML = `
-            <div class="video-box"><video controls><source src="assets/videos/soz_${n}.mp4" type="video/mp4"></video></div>
-            <div class="text-box"><h3>№${n} Қара сөз</h3>${db[n].txt}</div>
-        `;
+        v.innerHTML = `<div class="video-box"><video controls><source src="assets/videos/soz_${n}.mp4" type="video/mp4"></video></div><div class="text-box"><h3>№${n} Қара сөз</h3>${n}-ші қара сөздің толық мәтіні осы жерде.</div>`;
     }
-
     function loadComic(n) {
         const v = document.getElementById('comic-view');
         if(!n) { v.innerHTML = ""; return; }
-        v.innerHTML = `<img src="assets/comics/comic_${n}.jpg" style="max-width:100%; border-radius:10px; border:2px solid var(--gold);" onerror="this.src='https://via.placeholder.com/600x400?text=${n}-ші+сөз+комиксі'">`;
+        v.innerHTML = `<img src="assets/comics/comic_${n}.jpg" style="max-width:100%; border-radius:10px;" onerror="this.src='https://via.placeholder.com/600x400?text=${n}-ші+сөз+комиксі'">`;
     }
 
+    // --- ТЕСТ ЛОГИКАСЫ ---
     function loadQuiz(n) {
-        const v = document.getElementById('quiz-view');
-        if(!n) { v.classList.add('hidden'); return; }
-        v.classList.remove('hidden');
-        const q = db[n];
-        document.getElementById('quiz-q').innerText = q.q;
-        const oDiv = document.getElementById('quiz-o');
-        oDiv.innerHTML = "";
-        const res = document.getElementById('quiz-res'); res.innerText = "";
-        q.o.forEach((opt, i) => {
-            const b = document.createElement('button');
-            b.className = "quiz-option";
-            b.innerText = opt;
-            b.onclick = () => {
-                if(i === q.c) { b.classList.add('correct'); res.innerText = "Дұрыс!"; res.style.color="green"; }
-                else { b.classList.add('wrong'); res.innerText = "Қате! Қайта оқыңыз."; res.style.color="red"; }
-                document.querySelectorAll('.quiz-option').forEach(btn => btn.onclick = null);
-            };
-            oDiv.appendChild(b);
-        });
+        const cont = document.getElementById('quiz-container');
+        cont.classList.remove('hidden');
+        currentQuizIndex = 0;
+        score = 0;
+        document.getElementById('quiz-active-area').innerHTML = `<div class="quiz-progress" id="quiz-progress"></div><h3 id="quiz-q" style="margin-top:0;"></h3><div id="quiz-options"></div><div id="quiz-res" style="margin-top:15px; font-weight:bold;"></div>`;
+        renderQuestion(n);
     }
 
-    // --- ПІКІРЛЕР (ОТЗЫВЫ) ЛОГИКАСЫ ---
-    function sendReview() {
-        const input = document.getElementById('review-input');
-        const text = input.value.trim();
-        const user = localStorage.getItem('userName');
+    function renderQuestion(n) {
+        const data = db[n];
+        const q = data.q[currentQuizIndex];
+        document.getElementById('quiz-progress').innerText = `Сұрақ: ${currentQuizIndex + 1} / ${data.q.length}`;
+        document.getElementById('quiz-q').innerText = q.q;
+        const opts = document.getElementById('quiz-options');
+        opts.innerHTML = "";
         
-        if(!text) return;
+        if (data.type === "yesno") {
+            ["Иә", "Жоқ"].forEach(opt => opts.appendChild(createBtn(opt, () => check(opt, q.c, n))));
+        } else {
+            q.o.forEach((opt, idx) => opts.appendChild(createBtn(opt, () => check(idx, q.c, n))));
+        }
+    }
 
-        const reviews = JSON.parse(localStorage.getItem('abai_reviews') || "[]");
-        const newReview = {
-            name: user,
-            msg: text,
-            date: new Date().toLocaleString()
-        };
+    function createBtn(text, onClick) {
+        const b = document.createElement('button');
+        b.className = "quiz-option";
+        b.innerText = text;
+        b.onclick = function() { onClick.call(this); };
+        return b;
+    }
 
-        reviews.unshift(newReview); // Жаңа пікірді басына қосу
-        localStorage.setItem('abai_reviews', JSON.stringify(reviews));
-        input.value = ""; // Тазалау
+    function check(ans, corr, n) {
+        const btns = document.querySelectorAll('.quiz-option');
+        btns.forEach(b => b.onclick = null);
+        
+        const isCorrect = (ans === corr);
+        event.target.classList.add(isCorrect ? 'correct' : 'wrong');
+        
+        document.getElementById('quiz-res').innerText = isCorrect ? "✅ Дұрыс!" : "❌ Қате!";
+        document.getElementById('quiz-res').style.color = isCorrect ? "green" : "red";
+        
+        if (isCorrect) score++;
+
+        if (currentQuizIndex < db[n].q.length - 1) {
+            setTimeout(() => {
+                const nextBtn = document.createElement('button');
+                nextBtn.className = "btn";
+                nextBtn.style.marginTop = "10px";
+                nextBtn.innerText = "Келесі >>";
+                nextBtn.onclick = () => { currentQuizIndex++; renderQuestion(n); };
+                document.getElementById('quiz-options').appendChild(nextBtn);
+            }, 600);
+        } else {
+            setTimeout(() => finishQuiz(n), 1000);
+        }
+    }
+
+    function finishQuiz(n) {
+        const total = db[n].q.length;
+        const percent = Math.round((score / total) * 100);
+        
+        let allProgress = JSON.parse(localStorage.getItem('abai_global_progress') || "{}");
+        if (!allProgress[currentUser]) allProgress[currentUser] = {};
+        if (score > (allProgress[currentUser][n] || 0)) {
+            allProgress[currentUser][n] = score;
+            localStorage.setItem('abai_global_progress', JSON.stringify(allProgress));
+        }
+        updateProgressUI();
+
+        let msg = percent === 100 ? "Керемет!" : (percent >= 70 ? "Жақсы!" : "Дайындал!");
+        document.getElementById('quiz-active-area').innerHTML = `
+            <div style="text-align:center;">
+                <h3>ТЕСТ АЯҚТАЛДЫ</h3>
+                <div class="score-circle">${score}/${total}<div style="font-size:0.8rem">${percent}%</div></div>
+                <div style="font-size:1.2rem; margin-bottom:10px;">${msg}</div>
+                <button class="btn" onclick="loadQuiz(${n})">Қайта тапсыру</button>
+            </div>`;
+    }
+
+    function updateProgressUI() {
+        if (!currentUser) return;
+        let allProgress = JSON.parse(localStorage.getItem('abai_global_progress') || "{}");
+        let myProgress = allProgress[currentUser] || {};
+        let count = Object.keys(myProgress).length;
+        
+        document.getElementById('global-progress').style.width = (count / 45 * 100) + "%";
+        document.getElementById('progress-text').innerText = `${count} / 45 сөз`;
+        
+        const s = document.getElementById('quiz-select');
+        for(let i=0; i<s.options.length; i++) {
+            if(myProgress[s.options[i].value] && !s.options[i].text.includes("✅")) s.options[i].text += " ✅";
+        }
+    }
+
+    // --- ПІКІРЛЕР (АДМИН ЖАУАБЫМЕН) ---
+    function sendReview() {
+        const txt = document.getElementById('review-input').value.trim();
+        if(!txt) return;
+        
+        let reviews = JSON.parse(localStorage.getItem('abai_reviews_v2') || "[]");
+        reviews.unshift({
+            id: Date.now(),
+            user: currentUser,
+            text: txt,
+            date: new Date().toLocaleString(),
+            reply: null
+        });
+        localStorage.setItem('abai_reviews_v2', JSON.stringify(reviews));
+        document.getElementById('review-input').value = "";
         renderReviews();
     }
 
     function renderReviews() {
         const list = document.getElementById('reviews-list');
-        const reviews = JSON.parse(localStorage.getItem('abai_reviews') || "[]");
+        const reviews = JSON.parse(localStorage.getItem('abai_reviews_v2') || "[]");
         
-        if(reviews.length === 0) {
-            list.innerHTML = "<p style='color:#888'>Әзірге пікірлер жоқ...</p>";
-            return;
-        }
+        if(reviews.length === 0) { list.innerHTML = "<p style='text-align:center; color:#888;'>Пікірлер жоқ.</p>"; return; }
 
         list.innerHTML = reviews.map(r => `
             <div class="review-card">
-                <b>${r.name}</b>
-                <p>${r.msg}</p>
-                <small>${r.date}</small>
+                <div class="review-header">
+                    <span class="review-user">${r.user}</span>
+                    <span>${r.date}</span>
+                </div>
+                <div>${r.text}</div>
+                
+                ${r.reply ? `
+                    <div class="admin-reply-box">
+                        <span class="admin-label">Админ жауабы (Учитель):</span>
+                        ${r.reply}
+                    </div>
+                ` : ''}
+
+                ${isAdmin && !r.reply ? `
+                    <div class="reply-input-area" id="reply-area-${r.id}">
+                        <input type="text" id="input-${r.id}" placeholder="Жауап жазу...">
+                        <button class="reply-btn" onclick="submitReply(${r.id})">Жіберу</button>
+                    </div>
+                ` : ''}
             </div>
         `).join('');
     }
 
-    function logout() { localStorage.removeItem('userName'); location.reload(); }
+    function submitReply(reviewId) {
+        const replyText = document.getElementById(`input-${reviewId}`).value.trim();
+        if(!replyText) return;
+
+        let reviews = JSON.parse(localStorage.getItem('abai_reviews_v2') || "[]");
+        const index = reviews.findIndex(r => r.id === reviewId);
+        if (index !== -1) {
+            reviews[index].reply = replyText;
+            localStorage.setItem('abai_reviews_v2', JSON.stringify(reviews));
+            renderReviews();
+        }
+    }
 </script>
 </body>
 </html>
+
