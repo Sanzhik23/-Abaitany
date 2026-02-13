@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="kk">
 <head>
@@ -11,25 +10,34 @@
         body { font-family: 'Montserrat', sans-serif; background: var(--bg); color: var(--brown); margin: 0; min-height: 100vh; }
         .hidden { display: none !important; }
 
-        /* ЭКРАНЫ */
+        /* ЭКРАНДАР */
         .screen { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; padding: 20px; text-align: center; }
         
-        /* 1. ЗАСТАВКА (INTRO) */
-        .abai-portrait { width: 180px; height: 180px; border-radius: 50%; border: 5px solid var(--gold); object-fit: cover; margin-bottom: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); animation: fadeIn 1.5s; }
+        /* ЗАСТАВКА ЖӘНЕ ФОТО */
+        .abai-portrait { 
+            width: 180px; height: 180px; 
+            border-radius: 50%; 
+            border: 5px solid var(--gold); 
+            object-fit: cover; 
+            margin-bottom: 20px; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2); 
+            animation: fadeIn 1.5s; 
+        }
         .speech-bubble { background: var(--white); padding: 20px; border-radius: 15px; border: 2px solid var(--gold); max-width: 450px; margin-bottom: 20px; font-family: 'Playfair Display', serif; font-size: 1.2rem; min-height: 60px; display: flex; align-items: center; justify-content: center; }
 
         /* АВТОРИЗАЦИЯ */
         .auth-box { background: var(--white); padding: 40px; border-radius: 15px; box-shadow: 0 15px 40px rgba(0,0,0,0.1); width: 100%; max-width: 350px; border-top: 5px solid var(--gold); animation: slideUp 0.5s; }
-        input { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ccc; border-radius: 8px; box-sizing: border-box; font-family: inherit; }
+        input, textarea { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ccc; border-radius: 8px; box-sizing: border-box; font-family: inherit; }
         .link-btn { background: none; border: none; color: var(--gold); cursor: pointer; text-decoration: underline; margin-top: 10px; font-size: 0.9rem; }
 
         .btn { background: var(--brown); color: var(--gold); padding: 12px 30px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; width: 100%; transition: 0.2s; margin-top: 10px; }
         .btn:hover { background: #4a3b2a; transform: translateY(-2px); }
 
-        /* ИНТЕРФЕЙС ПРИЛОЖЕНИЯ */
+        /* БАСТЫ БЕТ */
         header { background: var(--brown); color: white; padding: 15px 5%; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
         .user-info { display: flex; align-items: center; gap: 15px; text-align: right; }
         .admin-badge { background: var(--gold); color: var(--brown); padding: 2px 8px; border-radius: 4px; font-size: 0.7rem; font-weight: bold; text-transform: uppercase; display: inline-block; margin-top: 5px; }
+        
         .progress-bar-container { width: 150px; height: 10px; background: rgba(255,255,255,0.2); border-radius: 5px; overflow: hidden; position: relative; margin-top: 5px; }
         .progress-fill { height: 100%; background: var(--gold); width: 0%; transition: width 0.5s; }
         .progress-text { font-size: 0.75rem; color: var(--gold); margin-top: 2px; }
@@ -41,18 +49,34 @@
         .content { max-width: 900px; margin: 20px auto; padding: 25px; background: var(--white); border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); display: none; animation: fadeIn 0.4s; }
         .content.active { display: block; }
 
+        /* ВИДЕО ЖӘНЕ МӘТІН БЛОГЫ */
+        .video-box { position: relative; padding-bottom: 56.25%; height: 0; background: #000; border-radius: 10px; overflow: hidden; margin: 20px 0; border: 2px solid var(--brown); }
+        .video-box video { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+        
+        .text-box { 
+            background: #fffcf5; 
+            padding: 30px; 
+            border-radius: 10px; 
+            border-left: 5px solid var(--gold); 
+            line-height: 1.8; 
+            text-align: justify; 
+            font-size: 1.05rem;
+            white-space: pre-line; /* Абзацтарды сақтау үшін */
+            color: #333;
+        }
+
         .nav-controls { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; gap: 10px; }
         .arrow-btn { background: var(--gold); color: var(--brown); border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer; font-weight: bold; }
         select { padding: 10px; border-radius: 5px; border: 1px solid #ccc; flex-grow: 1; }
 
-        /* ТЕСТЫ */
+        /* ТЕСТТЕР */
         .quiz-option { display: block; width: 100%; padding: 15px; margin: 10px 0; border: 1px solid #ddd; border-radius: 8px; background: white; cursor: pointer; text-align: left; transition: 0.2s; font-size: 1rem; }
         .quiz-option:hover { background: #fffdf5; border-color: var(--gold); }
         .quiz-option.correct { background: #d4edda !important; border-color: #28a745 !important; color: #155724; font-weight: bold; }
         .quiz-option.wrong { background: #f8d7da !important; border-color: #dc3545 !important; color: #721c24; }
         .score-circle { width: 120px; height: 120px; background: var(--gold); color: var(--brown); border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 2rem; font-weight: bold; margin: 0 auto 20px; border: 5px solid var(--brown); }
 
-        /* ОТЗЫВЫ */
+        /* ПІКІРЛЕР */
         .review-card { background: #fff; padding: 15px; border-radius: 10px; margin-bottom: 15px; border-left: 4px solid var(--brown); box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
         .review-header { display: flex; justify-content: space-between; font-size: 0.85rem; color: #777; margin-bottom: 5px; }
         .review-user { font-weight: bold; color: var(--brown); font-size: 1rem; }
@@ -69,12 +93,14 @@
 <body>
 
     <div id="intro-screen" class="screen">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/6/66/Abay_Qunanbayuli.jpg" class="abai-portrait">
+        <img src="abai.jpg" class="abai-portrait" onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/6/66/Abay_Qunanbayuli.jpg'">
         <div class="speech-bubble" id="type-text"></div>
         <button class="btn" id="start-btn" onclick="goToAuth()" style="display:none; width: auto; padding: 15px 50px;">БАСТАУ</button>
     </div>
 
     <div id="auth-screen" class="screen hidden">
+        <img src="abai.jpg" class="abai-portrait" onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/6/66/Abay_Qunanbayuli.jpg'">
+        
         <div id="login-form" class="auth-box">
             <h2 style="margin:0; color:var(--brown);">Кіру (Вход)</h2>
             <input type="text" id="login-username" placeholder="Логин">
@@ -153,7 +179,7 @@
             <div id="tab-3" class="content">
                 <h2>Пікірлер мен Талқылау</h2>
                 <div style="background:#f0f0f0; padding:15px; border-radius:10px; margin-bottom:20px;">
-                    <textarea id="review-input" rows="3" placeholder="Сұрақ қойыңыз немесе пікір жазыңыз..." style="width:100%; border-radius:5px; border:1px solid #ddd; padding:10px; font-family:inherit; box-sizing:border-box;"></textarea>
+                    <textarea id="review-input" rows="3" placeholder="Сұрақ қойыңыз немесе пікір жазыңыз..."></textarea>
                     <button class="btn" onclick="sendReview()" style="width: auto; margin-top:10px;">Жіберу</button>
                 </div>
                 <div id="reviews-list"></div>
@@ -162,8 +188,41 @@
     </div>
 
 <script>
-    // --- 1. БАЗА ВОПРОСОВ (ОСНОВА) ---
-    // Сюда вы вставите свои вопросы
+    // --- 1. ҚАРА СӨЗДЕР МӘТІНІ (БАЗА) ---
+    // Мен 1, 2 және 3-ші сөздерді толық енгіздім. Қалғанын осы үлгімен толтыра аласыз.
+    const sozderContent = {
+        "1": `Бұл жасқа келгенше жақсы өткіздік пе, жаман өткіздік пе, әйтеуір бірталай өмірімізді өткіздік: алыстық, жұлыстық, айтыстық, тартыстық әурешілікті көре-көре келдік. Енді жер ортасы жасқа келдік: қажыдық, жалықтық; қылып жүрген ісіміздің баянсызын, байлаусызын көрдік, бәрі қоршылық екенін білдік. Ал, енді қалған өмірімізді қайтіп, не қылып өткіземіз? Соны таба алмай өзім де қайранмын.
+
+        Ел бағу? Жоқ, елге бағым жоқ. Бағусыз дертке ұшырайын деген кісі бақпаса, не албыртқан, көңілі басылмаған жастар бағамын демесе, бізді құдай сақтасын!
+        
+        Мал бағу? Жоқ, баға алмаймын. Балалар өздеріне керегінше өздері бағар. Енді қартайғанда қызығын өзің түгел көре алмайтұғын, ұры, залым, тілемсектердің азығын бағып беремін деп, қалған аз ғана өмірімді қор қылар жайым жоқ.
+        
+        Ғылым бағу? Жоқ, ғылым бағарға да ғылым сөзін сөйлер адам жоқ. Білгеніңді кімге үйретерсің, білмегеніңді кімнен сұрарсың? Елсіз-күнсіз де кездемені жайып салып, қолына кезін алып отырғанның несі мұрат? Мұңдасып шер тарқатысар кісі болмаған соң, ғылым өзі - бір тез қартайтатұғын күйік.
+        
+        Софылық қылып, дін бағу? Жоқ, ол да болмайды, оған да тыныштық керек. Не көңілде, не көрген күнде бір тыныштық жоқ, осы елде, осы жерде не қылған софылық?
+        
+        Балаларды бағу? Жоқ, баға алмаймын. Бағар едім, қалайша бағудың мәнісін де білмеймін, не болсын деп бағам, қай елге қосайын, қай әрекетке қосайын? Балаларымның өзіне ілгері өмірінің, білімінің пайдасын тыныштықпен көрерлік орын тапқаным жоқ, қайда бар, не қыл дерімді біле алмай отырмын, не бол деп бағам? Оны да ермек қыла алмадым.
+        
+        Ақыры ойладым: осы ойыма келген нәрселерді қағазға жаза берейін, ақ қағаз бен қара сияны ермек қылайын, кімде-кім ішінен керекті сөз тапса, жазып алсын, я оқысын, керегі жоқ десе, өз сөзім өзімдікі дедім де, ақыры осыған байладым, енді мұнан басқа ешбір жұмысым жоқ.`,
+
+        "2": `Мен бала күнімде естуші едім, біздің қазақ өзге жұртты көрсе: «Орыс — оңбаған, парыз, қарсы, бірақ өнері бар, өзі аңқау, алдау білмейді, қорғалау білмейді; орыс көрсең — орысша», — деп отырушы еді. Ноғайды көрсе: «Ноғай — түйеден қорыққан, жаяу жүруге жарамайтын, салт мініп көрмеген, дүкенші, солдат қашқын, былшыл, суылдақ», — деуші еді.
+
+        Өзбекті көрсе: «Сартылдаған сарт, қылдыраған тәжік, құлағыңнан қақпайды, сұрасаң — бермейді, азғын иттер», — деуші еді. Бұл өзге жұртты жамандап, өздерін мақтағандары екен: «Құдайға шүкір, аналардан біз артық, аналардан біз артық», — деп.
+        
+        Енді қарап тұрсам, сарттың екпеген егіні жоқ, шығармаған жемісі жоқ, саудагерінің жүрмеген жері жоқ, қылмаған шеберлігі жоқ. Өзіменен өзі әуре болып, бірімен бірі ешбір шатағы жоқ. Орысқа қарасаң, қала салған, өз дінін күткен, егін салған, сауда қылған, біреуге тимесе, тірі жанға қастығы жоқ, өнерге, ғылымға, бәріне жеткен.
+        
+        Төреге, қараға, байға, кедейге бірдей заң, бірдей бұйрық істеген. Біздің қазақтар малын сатса — сартқа, тамақ алса — сарттан алады. Үй-ішін жасаса — сарт, киімін кисе — сарт, моласын салдырса — сарт, бала оқытса — сарт. Енді орысқа келсек, орыс қаласын, поштасын, қызметін көрмей, бірінің бірі, әйтеуір, малын ұрлап ала алмайды. Орыс сияз, орыс старшын болмаса, мал берерде, алар да, жұмыста да, жұт та, өлім де, өмір де, еш нәрсе орыссыз болмайды екен.
+        
+        Бұрынғы біздің «орыс, сарт» деп жүрген, өздерімізден артық көріп, мақтанып жүрген халықтарымыздың бәрінің бізден иелігі артық екен, бізден өнері артық екен, бізден ғылымы артық екен, бізден заңы, оқуы артық екен, енді несіне мақтанамыз?`,
+        
+        "3": `Қазақтың бірінің біріне қаскүнем болмағының, бірінің тілеуін бірі тілеспейтұғынының, рас сөзі аз болатұғынының, қызметке таласқыш болатұғынының, өздерінің жалқау болатұғынының себебі не? Һәмма ғаламға белгілі данышпандар әлдеқашан байқаған: әрбір жалқау кісі қорқақ, қайратсыз тартады; әрбір қайратсыз қорқақ, мақтаншақ келеді; әрбір мақтаншақ қорқақ, ақылсыз, надан келеді; әрбір ақылсыз надан, арсыз келеді; әрбір арсыз жалқаудан сұрамсақ, өзі тоymсыз, өнерсіз, ешкімге достығы жоқ жандар шығады.
+        
+        Мұның бәрі төрт аяқты малды көбейтеміннен басқа ойдың жоқтығынан, өзге өнердің бәрін адыра қалдырып, бүкіл қуатты мал табуға сарп ұрады.
+        
+        Егерде мал керек болса, қолөнер үйренбек керек. Мал жұтайды, өнер жұтамайды. Алдау қоспай адал еңбегін сатқан қолөнерлі қазақтың әулиесі сол.`
+    };
+
+    // --- 2. ТЕСТ СҰРАҚТАРЫНЫҢ БАЗАСЫ (Дұрыс толтырылған) ---
     const db = {
         "1": { type: "yesno", q: [
             {q:"Абай бұл қарасөзінде ел ісіне араласудан шаршағанын айтады.", c:"Иә"},
@@ -707,37 +766,34 @@
         ]}
     };
 
-    // Автоматическое заполнение пустых слов, чтобы код не сломался
-    // (Не трогайте этот цикл, он создает заглушки для всех 45 слов)
+    // --- АВТО-ГЕНЕРАЦИЯ (ТЕК ЖОҚ СҰРАҚТАР ҮШІН) ---
     for(let i=1; i<=45; i++) {
         const k = i.toString();
-        if(!db[k]) {
+        // ЕГЕР сұрақ базада ЖОҚ болса ғана бос шаблон қосамыз
+        if (!db[k]) {
             db[k] = { 
                 type: "yesno", 
-                q: [{ q: `${i}-ші сөз бойынша тест сұрақтарын енгізіңіз...`, c: "Иә" }] 
+                q: [{ q: `${i}-ші қара сөз бойынша сұрақты осы жерге кодыңызға жазыңыз...`, c: "Иә" }] 
             };
         }
     }
 
-    // --- СИСТЕМНЫЕ ПЕРЕМЕННЫЕ ---
+    // --- ЖҮЙЕ МЕН АЙНЫМАЛЫЛАР ---
     let currentUser = null;
     let isAdmin = false;
     let currentQuizIndex = 0;
     let score = 0;
 
-    // --- ЗАПУСК ---
+    // --- БАСТАПҚЫ ЖҮКТЕУ ---
     window.onload = () => {
         initSystem();       
         populateSelects();  
         
-        // Проверка сессии (если уже вошел)
         const savedUser = JSON.parse(localStorage.getItem('abai_session'));
         if (savedUser) {
-            // Если есть сессия, пропускаем интро и логин
             document.getElementById('intro-screen').classList.add('hidden');
             loginSuccess(savedUser.name, savedUser.role);
         } else {
-            // Если нет, показываем печатную машинку
             startType();
         }
     };
@@ -763,7 +819,6 @@
     }
 
     function initSystem() {
-        // Создаем админа по умолчанию
         let users = JSON.parse(localStorage.getItem('abai_users') || "{}");
         if (!users['admin']) {
             users['admin'] = { pass: '12345', role: 'admin' };
@@ -781,7 +836,7 @@
         }
     }
 
-    // --- ЛОГИН / РЕГИСТРАЦИЯ ---
+    // --- КІРУ / ТІРКЕЛУ ---
     function toggleAuth(mode) {
         document.getElementById('auth-msg').innerText = "";
         if (mode === 'register') {
@@ -865,12 +920,26 @@
         if(next >= 1 && next < s.options.length) { s.selectedIndex = next; s.dispatchEvent(new Event('change')); }
     }
 
-    // --- КОНТЕНТ ---
+    // --- КОНТЕНТТІ ЖҮКТЕУ (Видео + Мәтін) ---
     function loadContent(n) {
         const v = document.getElementById('soz-view');
         if(!n) { v.innerHTML = ""; return; }
-        v.innerHTML = `<div class="video-box"><video controls><source src="assets/videos/soz_${n}.mp4" type="video/mp4"></video></div><div class="text-box"><h3>№${n} Қара сөз</h3>${n}-ші қара сөздің толық мәтіні осы жерде.</div>`;
+        
+        // Мәтінді базадан алу
+        const text = sozderContent[n] || "Мәтін жүктелуде немесе енгізілмеген...";
+        
+        v.innerHTML = `
+            <div class="video-box">
+                <video controls>
+                    <source src="assets/videos/soz_${n}.mp4" type="video/mp4">
+                </video>
+            </div>
+            <div class="text-box">
+                <h3>№${n} Қара сөз</h3>
+                <p>${text}</p>
+            </div>`;
     }
+
     function loadComic(n) {
         const v = document.getElementById('comic-view');
         if(!n) { v.innerHTML = ""; return; }
@@ -1037,4 +1106,3 @@
 </script>
 </body>
 </html>
-
