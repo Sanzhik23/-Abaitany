@@ -6,481 +6,276 @@
     <title>АБАЙ ӘЛЕМІ — Даналық жолы</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
     <style>
-        /* Сіздің стильдеріңіз (CSS) осы жерде қала береді */
+        /* НЕГІЗГІ СТИЛЬДЕР */
         :root { --gold: #d4af37; --brown: #2c1e10; --bg: #fdf8f2; --white: #ffffff; --green: #28a745; --red: #dc3545; }
         body { font-family: 'Montserrat', sans-serif; background: var(--bg); color: var(--brown); margin: 0; min-height: 100vh; }
         .hidden { display: none !important; }
+        
+        /* ЭКРАНДАР */
         .screen { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; padding: 20px; text-align: center; }
         .abai-portrait { width: 180px; height: 180px; border-radius: 50%; border: 5px solid var(--gold); object-fit: cover; margin-bottom: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); animation: fadeIn 1.5s; }
         .speech-bubble { background: var(--white); padding: 20px; border-radius: 15px; border: 2px solid var(--gold); max-width: 450px; margin-bottom: 20px; font-family: 'Playfair Display', serif; font-size: 1.2rem; min-height: 60px; display: flex; align-items: center; justify-content: center; }
+        
+        /* АВТОРИЗАЦИЯ */
         .auth-box { background: var(--white); padding: 40px; border-radius: 15px; box-shadow: 0 15px 40px rgba(0,0,0,0.1); width: 100%; max-width: 350px; border-top: 5px solid var(--gold); animation: slideUp 0.5s; }
         input, textarea { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ccc; border-radius: 8px; box-sizing: border-box; font-family: inherit; }
-        .link-btn { background: none; border: none; color: var(--gold); cursor: pointer; text-decoration: underline; margin-top: 10px; font-size: 0.9rem; }
         .btn { background: var(--brown); color: var(--gold); padding: 12px 30px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; width: 100%; transition: 0.2s; margin-top: 10px; }
         .btn:hover { background: #4a3b2a; transform: translateY(-2px); }
-        header { background: var(--brown); color: white; padding: 15px 5%; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
-        .user-info { display: flex; align-items: center; gap: 15px; text-align: right; }
-        .admin-badge { background: var(--gold); color: var(--brown); padding: 2px 8px; border-radius: 4px; font-size: 0.7rem; font-weight: bold; text-transform: uppercase; display: inline-block; margin-top: 5px; }
-        .progress-bar-container { width: 150px; height: 10px; background: rgba(255,255,255,0.2); border-radius: 5px; overflow: hidden; position: relative; margin-top: 5px; }
+
+        /* HEADER ЖӘНЕ NAV */
+        header { background: var(--brown); color: white; padding: 15px 5%; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; }
+        .progress-bar-container { width: 150px; height: 10px; background: rgba(255,255,255,0.2); border-radius: 5px; overflow: hidden; margin-top: 5px; }
         .progress-fill { height: 100%; background: var(--gold); width: 0%; transition: width 0.5s; }
-        .progress-text { font-size: 0.75rem; color: var(--gold); margin-top: 2px; }
         nav { background: #3d2b1a; padding: 10px; display: flex; justify-content: center; position: sticky; top: 0; z-index: 100; flex-wrap: wrap; }
-        nav a { color: rgba(255,255,255,0.8); text-decoration: none; padding: 8px 15px; cursor: pointer; border-radius: 5px; margin: 0 5px; transition: 0.3s; }
+        nav a { color: rgba(255,255,255,0.8); text-decoration: none; padding: 8px 15px; cursor: pointer; border-radius: 5px; margin: 0 5px; }
         nav a:hover, nav a.active { background: var(--gold); color: var(--brown); font-weight: bold; }
-        .content { max-width: 900px; margin: 20px auto; padding: 25px; background: var(--white); border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); display: none; animation: fadeIn 0.4s; }
+
+        /* КОНТЕНТ */
+        .content { max-width: 900px; margin: 20px auto; padding: 25px; background: var(--white); border-radius: 15px; display: none; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
         .content.active { display: block; }
         .video-box { position: relative; padding-bottom: 56.25%; height: 0; background: #000; border-radius: 10px; overflow: hidden; margin: 20px 0; border: 2px solid var(--brown); }
         .video-box video { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
-        .text-box { background: #fffcf5; padding: 30px; border-radius: 10px; border-left: 5px solid var(--gold); line-height: 1.8; text-align: justify; font-size: 1.05rem; white-space: pre-line; color: #333; }
-        .nav-controls { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; gap: 10px; }
-        .arrow-btn { background: var(--gold); color: var(--brown); border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer; font-weight: bold; }
-        select { padding: 10px; border-radius: 5px; border: 1px solid #ccc; flex-grow: 1; }
-        .quiz-option { display: block; width: 100%; padding: 15px; margin: 10px 0; border: 1px solid #ddd; border-radius: 8px; background: white; cursor: pointer; text-align: left; transition: 0.2s; font-size: 1rem; }
-        .quiz-option:hover { background: #fffdf5; border-color: var(--gold); }
-        .quiz-option.correct { background: #d4edda !important; border-color: #28a745 !important; color: #155724; font-weight: bold; }
-        .quiz-option.wrong { background: #f8d7da !important; border-color: #dc3545 !important; color: #721c24; }
-        .score-circle { width: 120px; height: 120px; background: var(--gold); color: var(--brown); border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 2rem; font-weight: bold; margin: 0 auto 20px; border: 5px solid var(--brown); }
-        .review-card { background: #fff; padding: 15px; border-radius: 10px; margin-bottom: 15px; border-left: 4px solid var(--brown); box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
-        .review-header { display: flex; justify-content: space-between; font-size: 0.85rem; color: #777; margin-bottom: 5px; }
-        .review-user { font-weight: bold; color: var(--brown); font-size: 1rem; }
-        .admin-reply-box { background: #fff8e1; border-left: 4px solid var(--gold); margin-top: 10px; padding: 10px; border-radius: 5px; font-size: 0.95rem; animation: fadeIn 0.3s; }
-        .admin-label { font-weight: bold; color: var(--brown); display: block; margin-bottom: 5px; font-size: 0.8rem; text-transform: uppercase; }
-        .reply-input-area { margin-top: 10px; display: flex; gap: 5px; }
-        .reply-input-area input { margin: 0; flex-grow: 1; padding: 8px; }
-        .reply-btn { background: var(--gold); color: var(--brown); border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; font-weight: bold; font-size: 0.8rem; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        .text-box { background: #fffcf5; padding: 30px; border-radius: 10px; border-left: 5px solid var(--gold); line-height: 1.8; text-align: justify; white-space: pre-line; }
+
+        /* ЧАТ ЖӘНЕ ПІКІРЛЕР */
+        #reviews-list { max-height: 500px; overflow-y: auto; display: flex; flex-direction: column-reverse; background: #f0f0f0; padding: 15px; border-radius: 10px; }
+        .review-card { background: white; padding: 15px; border-radius: 10px; margin-bottom: 10px; border-left: 4px solid var(--brown); }
+        .admin-reply-box { background: #fff8e1; border-left: 4px solid var(--gold); margin-top: 10px; padding: 10px; font-size: 0.9rem; }
+
+        /* ТЕСТТЕР */
+        .quiz-option { display: block; width: 100%; padding: 15px; margin: 10px 0; border: 1px solid #ddd; border-radius: 8px; background: white; cursor: pointer; text-align: left; }
+        .quiz-option.correct { background: #d4edda !important; color: #155724; }
+        .quiz-option.wrong { background: #f8d7da !important; color: #721c24; }
+        .score-circle { width: 100px; height: 100px; background: var(--gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; font-weight: bold; margin: 20px auto; }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     </style>
 </head>
 <body>
+
     <div id="intro-screen" class="screen">
         <img src="abai.jpg" class="abai-portrait" onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/6/66/Abay_Qunanbayuli.jpg'">
         <div class="speech-bubble" id="type-text"></div>
-        <button class="btn" id="start-btn" onclick="goToAuth()" style="display:none; width: auto; padding: 15px 50px;">БАСТАУ</button>
+        <button class="btn" id="start-btn" onclick="goToAuth()" style="display:none; width: auto;">БАСТАУ</button>
     </div>
 
     <div id="auth-screen" class="screen hidden">
-        <img src="abai.jpg" class="abai-portrait" onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/6/66/Abay_Qunanbayuli.jpg'">
         <div id="login-form" class="auth-box">
-            <h2 style="margin:0; color:var(--brown);">Кіру (Вход)</h2>
+            <h2>Кіру</h2>
             <input type="text" id="login-username" placeholder="Логин">
-            <input type="password" id="login-password" placeholder="Құпиясөз (Пароль)">
+            <input type="password" id="login-password" placeholder="Құпиясөз">
             <button class="btn" onclick="handleLogin()">КІРУ</button>
-            <button class="link-btn" onclick="toggleAuth('register')">Тіркелу</button>
+            <p onclick="toggleAuth('register')" style="cursor:pointer; color:var(--gold); margin-top:15px;">Тіркелу</p>
         </div>
         <div id="register-form" class="auth-box hidden">
-            <h2 style="margin:0; color:var(--brown);">Тіркелу</h2>
+            <h2>Тіркелу</h2>
             <input type="text" id="reg-username" placeholder="Жаңа логин">
             <input type="password" id="reg-password" placeholder="Жаңа құпиясөз">
             <button class="btn" onclick="handleRegister()">ТІРКЕЛУ</button>
-            <button class="link-btn" onclick="toggleAuth('login')">Кіруге оралу</button>
+            <p onclick="toggleAuth('login')" style="cursor:pointer; color:var(--gold); margin-top:15px;">Кіруге оралу</p>
         </div>
-        <p id="auth-msg" style="color:var(--red); margin-top:10px; font-weight:bold;"></p>
+        <p id="auth-msg" style="color:var(--red); font-weight:bold;"></p>
     </div>
 
     <div id="app" class="hidden">
         <header>
-            <div style="display:flex; align-items:center; gap:10px;">
+            <div>
                 <h2 style="margin:0;">АБАЙТАНУ</h2>
+                <div id="admin-badge" class="hidden" style="color:var(--gold); font-size:0.8rem;">ADMIN</div>
             </div>
-            <div class="user-info">
-                <div>
-                    <div style="font-weight:bold; font-size:1.1rem;" id="user-display">User</div>
-                    <div id="admin-badge" class="admin-badge hidden">ADMIN</div>
-                    <div class="progress-bar-container">
-                        <div class="progress-fill" id="global-progress"></div>
-                    </div>
-                    <div class="progress-text" id="progress-text">0 / 45 сөз</div>
-                </div>
-                <button onclick="logout()" style="background:none; border:1px solid rgba(255,255,255,0.5); color:white; cursor:pointer; border-radius:5px; padding: 5px 10px; font-size:0.8rem; height:fit-content; align-self: center;">Шығу</button>
+            <div style="text-align:right;">
+                <div id="user-display" style="font-weight:bold;">User</div>
+                <div class="progress-bar-container"><div class="progress-fill" id="global-progress"></div></div>
+                <small id="progress-text">0/45 сөз</small>
+                <button onclick="logout()" style="background:none; border:1px solid white; color:white; cursor:pointer; padding:2px 5px; margin-top:5px;">Шығу</button>
             </div>
         </header>
+
         <nav>
             <a onclick="tab(0)" class="nav-link active">Қара сөздер</a>
             <a onclick="tab(1)" class="nav-link">Комикстер</a>
             <a onclick="tab(2)" class="nav-link">Тесттер</a>
-            <a onclick="tab(3)" class="nav-link">Пікірлер</a>
+            <a onclick="tab(3)" class="nav-link">Пікірлер (Online)</a>
         </nav>
+
         <main>
             <div id="tab-0" class="content active">
-                <div class="nav-controls">
-                    <button class="arrow-btn" onclick="move(-1, 'soz-select')">←</button>
-                    <select id="soz-select" onchange="loadContent(this.value)"></select>
-                    <button class="arrow-btn" onclick="move(1, 'soz-select')">→</button>
+                <div style="display:flex; gap:10px; margin-bottom:20px;">
+                    <button class="btn" style="width:50px;" onclick="move(-1, 'soz-select')">←</button>
+                    <select id="soz-select" onchange="loadContent(this.value)" style="flex-grow:1; padding:10px;"></select>
+                    <button class="btn" style="width:50px;" onclick="move(1, 'soz-select')">→</button>
                 </div>
                 <div id="soz-view"></div>
             </div>
+
             <div id="tab-1" class="content">
-                <div class="nav-controls">
-                    <button class="arrow-btn" onclick="move(-1, 'comic-select')">←</button>
-                    <select id="comic-select" onchange="loadComic(this.value)"></select>
-                    <button class="arrow-btn" onclick="move(1, 'comic-select')">→</button>
-                </div>
-                <div id="comic-view" style="text-align: center;"></div>
+                <select id="comic-select" onchange="loadComic(this.value)" style="width:100%; padding:10px; margin-bottom:20px;"></select>
+                <div id="comic-view" style="text-align:center;"></div>
             </div>
+
             <div id="tab-2" class="content">
-                <div class="nav-controls">
-                    <button class="arrow-btn" onclick="move(-1, 'quiz-select')">←</button>
-                    <select id="quiz-select" onchange="loadQuiz(this.value)"></select>
-                    <button class="arrow-btn" onclick="move(1, 'quiz-select')">→</button>
-                </div>
-                <div id="quiz-container" class="hidden" style="background:#fffcf5; padding:20px; border-radius:10px; border:2px solid #eee;">
+                <select id="quiz-select" onchange="loadQuiz(this.value)" style="width:100%; padding:10px; margin-bottom:20px;"></select>
+                <div id="quiz-container" class="hidden">
                     <div id="quiz-active-area"></div>
                 </div>
             </div>
+
             <div id="tab-3" class="content">
                 <h2>Пікірлер мен Талқылау</h2>
-                <div style="background:#f0f0f0; padding:15px; border-radius:10px; margin-bottom:20px;">
-                    <textarea id="review-input" rows="3" placeholder="Сұрақ қойыңыз немесе пікір жазыңыз..."></textarea>
-                    <button class="btn" onclick="sendReview()" style="width: auto; margin-top:10px;">Жіберу</button>
-                </div>
-                <div id="reviews-list"></div>
+                <textarea id="review-input" rows="3" placeholder="Ойыңызды жазыңыз..."></textarea>
+                <button class="btn" onclick="sendReview()">Жіберу</button>
+                <div id="reviews-list" style="margin-top:20px;"></div>
             </div>
         </main>
     </div>
 
     <script src="data.js"></script>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getDatabase, ref, set, get, child, push, onValue, update } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
-    <script>
-        // Бұл жерден 'sozderContent' және 'db' үлкен базасын ӨШІРІП ТАСТАДЫҚ.
-        // Олар енді "data.js" файлынан автоматты түрде алынады.
-
-        // --- АВТО-ГЕНЕРАЦИЯ (ТЕК ЖОҚ СҰРАҚТАР ҮШІН) ---
-        for(let i=1; i<=45; i++) {
-            const k = i.toString();
-            if (!db[k]) {
-                db[k] = { 
-                    type: "yesno", 
-                    q: [{ q: `${i}-ші қара сөз бойынша сұрақты осы жерге кодыңызға жазыңыз...`, c: "Иә" }] 
-                };
-            }
-        }
-
-        // --- ЖҮЙЕ МЕН АЙНЫМАЛЫЛАР ---
-        let currentUser = null;
-        let isAdmin = false;
-        let currentQuizIndex = 0;
-        let score = 0;
-
-        // --- БАСТАПҚЫ ЖҮКТЕУ ---
-        window.onload = () => {
-            initSystem();       
-            populateSelects();  
-            
-            const savedUser = JSON.parse(localStorage.getItem('abai_session'));
-            if (savedUser) {
-                document.getElementById('intro-screen').classList.add('hidden');
-                loginSuccess(savedUser.name, savedUser.role);
-            } else {
-                startType();
-            }
+        // Firebase Конфигурациясы (СІЗДІҢ КІЛТТЕРІҢІЗ)
+        const firebaseConfig = {
+            apiKey: "AIzaSyBEHbOWsHzVu9cCHI_xTjJ9nUwUSVwj6IM",
+            authDomain: "abaialem.firebaseapp.com",
+            databaseURL: "https://abaialem-default-rtdb.firebaseio.com",
+            projectId: "abaialem",
+            storageBucket: "abaialem.firebasestorage.app",
+            messagingSenderId: "191818917489",
+            appId: "1:191818917489:web:6786f7daeec2d15b21ddd0"
         };
 
-        function startType() {
-            const m = "Абай әлеміне қош келдіңіз!";
-            let i = 0;
-            function t() {
-                if(i < m.length) { 
-                    document.getElementById("type-text").innerHTML += m.charAt(i); 
-                    i++; 
-                    setTimeout(t, 50); 
-                } else { 
-                    document.getElementById("start-btn").style.display="inline-block"; 
-                }
-            }
-            t();
-        }
+        const app = initializeApp(firebaseConfig);
+        const dbRT = getDatabase(app);
 
-        function goToAuth() {
-            document.getElementById('intro-screen').classList.add('hidden');
-            document.getElementById('auth-screen').classList.remove('hidden');
-        }
+        let currentUser = null;
+        let isAdmin = false;
 
-        function initSystem() {
-            let users = JSON.parse(localStorage.getItem('abai_users') || "{}");
-            if (!users['admin']) {
-                users['admin'] = { pass: '12345', role: 'admin' };
-                localStorage.setItem('abai_users', JSON.stringify(users));
-            }
-        }
+        // Глобалды функциялар
+        window.goToAuth = () => { document.getElementById('intro-screen').classList.add('hidden'); document.getElementById('auth-screen').classList.remove('hidden'); };
+        window.toggleAuth = (m) => { document.getElementById('login-form').classList.toggle('hidden', m==='register'); document.getElementById('register-form').classList.toggle('hidden', m==='login'); };
+        window.tab = (n) => { 
+            document.querySelectorAll('.content').forEach((c,i) => c.style.display = (i===n ? 'block' : 'none')); 
+            document.querySelectorAll('.nav-link').forEach((l,i) => l.classList.toggle('active', i===n));
+        };
+        window.move = (dir, id) => { let s = document.getElementById(id); let n = s.selectedIndex + dir; if(n >= 1 && n < s.options.length) { s.selectedIndex = n; s.dispatchEvent(new Event('change')); } };
 
-        function populateSelects() {
-            const s1 = document.getElementById('soz-select'), s2 = document.getElementById('comic-select'), s3 = document.getElementById('quiz-select');
-            [s1, s2, s3].forEach(s => s.add(new Option("--- Таңдаңыз ---", "")));
-            for(let i=1; i<=45; i++) {
-                s1.add(new Option(i + "-ші қара сөз", i));
-                s2.add(new Option(i + "-ші комикс", i));
-                s3.add(new Option(i + "-ші тест", i));
-            }
-        }
-
-        // --- КІРУ / ТІРКЕЛУ ---
-        function toggleAuth(mode) {
-            document.getElementById('auth-msg').innerText = "";
-            if (mode === 'register') {
-                document.getElementById('login-form').classList.add('hidden');
-                document.getElementById('register-form').classList.remove('hidden');
-            } else {
-                document.getElementById('register-form').classList.add('hidden');
-                document.getElementById('login-form').classList.remove('hidden');
-            }
-        }
-
-        function handleLogin() {
-            const u = document.getElementById('login-username').value.trim();
-            const p = document.getElementById('login-password').value.trim();
-            const msg = document.getElementById('auth-msg');
-
-            if (!u || !p) { msg.innerText = "Толықтырыңыз!"; return; }
-
-            let users = JSON.parse(localStorage.getItem('abai_users') || "{}");
-
-            if (users[u] && users[u].pass === p) {
-                loginSuccess(u, users[u].role);
-            } else {
-                msg.innerText = "Логин немесе құпиясөз қате!";
-            }
-        }
-
-        function handleRegister() {
+        // AUTH
+        window.handleRegister = () => {
             const u = document.getElementById('reg-username').value.trim();
             const p = document.getElementById('reg-password').value.trim();
-            const msg = document.getElementById('auth-msg');
+            if(!u || !p) return;
+            set(ref(dbRT, 'users/' + u), { pass: p, role: 'student' }).then(() => { alert("Сәтті! Кіріңіз."); toggleAuth('login'); });
+        };
 
-            if (!u || !p) { msg.innerText = "Толықтырыңыз!"; return; }
-            if (u.length < 3) { msg.innerText = "Логин тым қысқа!"; return; }
+        window.handleLogin = () => {
+            const u = document.getElementById('login-username').value.trim();
+            const p = document.getElementById('login-password').value.trim();
+            get(child(ref(dbRT), `users/${u}`)).then((s) => {
+                if(s.exists() && s.val().pass === p) loginSuccess(u, s.val().role);
+                else alert("Қате!");
+            });
+        };
 
-            let users = JSON.parse(localStorage.getItem('abai_users') || "{}");
-
-            if (users[u]) {
-                msg.innerText = "Бұл логин бос емес!";
-            } else {
-                users[u] = { pass: p, role: 'student' };
-                localStorage.setItem('abai_users', JSON.stringify(users));
-                alert("Тіркелу сәтті өтті! Енді кіріңіз.");
-                toggleAuth('login');
-            }
-        }
-
-        function loginSuccess(username, role) {
-            currentUser = username;
-            isAdmin = (role === 'admin');
-
-            localStorage.setItem('abai_session', JSON.stringify({ name: username, role: role }));
-
+        function loginSuccess(name, role) {
+            currentUser = name; isAdmin = (role === 'admin');
             document.getElementById('auth-screen').classList.add('hidden');
             document.getElementById('app').classList.remove('hidden');
-            
-            document.getElementById('user-display').innerText = username;
-            if (isAdmin) {
-                document.getElementById('admin-badge').classList.remove('hidden');
-            } else {
-                document.getElementById('admin-badge').classList.add('hidden');
-            }
-            
-            updateProgressUI();
-            renderReviews();
+            document.getElementById('user-display').innerText = name;
+            if(isAdmin) document.getElementById('admin-badge').classList.remove('hidden');
+            loadProgress(); listenReviews();
         }
 
-        function logout() {
-            localStorage.removeItem('abai_session');
-            location.reload();
-        }
+        window.logout = () => location.reload();
 
-        // --- НАВИГАЦИЯ ---
-        function tab(n) {
-            document.querySelectorAll('.content').forEach((c, i) => c.classList.toggle('active', i === n));
-            document.querySelectorAll('.nav-link').forEach((l, i) => l.classList.toggle('active', i === n));
-        }
-        function move(dir, id) {
-            const s = document.getElementById(id);
-            let next = s.selectedIndex + dir;
-            if(next >= 1 && next < s.options.length) { s.selectedIndex = next; s.dispatchEvent(new Event('change')); }
-        }
+        // ҚАРА СӨЗДЕР МЕН КОМИКСТЕР
+        window.loadContent = (n) => {
+            if(!n) return;
+            document.getElementById('soz-view').innerHTML = `
+                <div class="video-box"><video controls><source src="assets/videos/soz_${n}.mp4"></video></div>
+                <div class="text-box"><h3>№${n} Қара сөз</h3><p>${sozderContent[n] || "Мәтін табылмады"}</p></div>`;
+        };
+        window.loadComic = (n) => {
+            if(!n) return;
+            document.getElementById('comic-view').innerHTML = `<img src="assets/comics/comic_${n}.jpg" style="max-width:100%; border-radius:10px;" onerror="this.src='https://via.placeholder.com/600x400?text=Комикс+№${n}'">`;
+        };
 
-        // --- КОНТЕНТТІ ЖҮКТЕУ ---
-        function loadContent(n) {
-            const v = document.getElementById('soz-view');
-            if(!n) { v.innerHTML = ""; return; }
-            
-            // Мәтінді 'sozderContent' (data.js-тен келеді) арқылы алу
-            const text = sozderContent[n] || "Мәтін жүктелуде немесе енгізілмеген...";
-            
-            v.innerHTML = `
-                <div class="video-box">
-                    <video controls>
-                        <source src="assets/videos/soz_${n}.mp4" type="video/mp4">
-                    </video>
-                </div>
-                <div class="text-box">
-                    <h3>№${n} Қара сөз</h3>
-                    <p>${text}</p>
-                </div>`;
+        // ТЕСТТЕР
+        let qIdx = 0, qScore = 0;
+        window.loadQuiz = (n) => {
+            if(!n) return;
+            qIdx = 0; qScore = 0;
+            document.getElementById('quiz-container').classList.remove('hidden');
+            renderQ(n);
+        };
+        function renderQ(n) {
+            const quiz = db[n]; const q = quiz.q[qIdx];
+            let html = `<h3>Сұрақ ${qIdx+1}/${quiz.q.length}</h3><p>${q.q}</p><div id="opts"></div>`;
+            document.getElementById('quiz-active-area').innerHTML = html;
+            const area = document.getElementById('opts');
+            if(quiz.type === "yesno") ["Иә", "Жоқ"].forEach(o => area.appendChild(createOpt(o, o===q.c, n)));
+            else q.o.forEach((o, i) => area.appendChild(createOpt(o, i===q.c, n)));
         }
-
-        function loadComic(n) {
-            const v = document.getElementById('comic-view');
-            if(!n) { v.innerHTML = ""; return; }
-            v.innerHTML = `<img src="assets/comics/comic_${n}.jpg" style="max-width:100%; border-radius:10px;" onerror="this.src='https://via.placeholder.com/600x400?text=${n}-ші+сөз+комиксі'">`;
-        }
-
-        // --- ТЕСТ ЛОГИКАСЫ ---
-        function loadQuiz(n) {
-            const cont = document.getElementById('quiz-container');
-            cont.classList.remove('hidden');
-            currentQuizIndex = 0;
-            score = 0;
-            document.getElementById('quiz-active-area').innerHTML = `<div class="quiz-progress" id="quiz-progress"></div><h3 id="quiz-q" style="margin-top:0;"></h3><div id="quiz-options"></div><div id="quiz-res" style="margin-top:15px; font-weight:bold;"></div>`;
-            renderQuestion(n);
-        }
-
-        function renderQuestion(n) {
-            const data = db[n]; // 'db' енді data.js-тен келеді
-            const q = data.q[currentQuizIndex];
-            document.getElementById('quiz-progress').innerText = `Сұрақ: ${currentQuizIndex + 1} / ${data.q.length}`;
-            document.getElementById('quiz-q').innerText = q.q;
-            const opts = document.getElementById('quiz-options');
-            opts.innerHTML = "";
-            
-            if (data.type === "yesno") {
-                ["Иә", "Жоқ"].forEach(opt => opts.appendChild(createBtn(opt, () => check(opt, q.c, n))));
-            } else {
-                q.o.forEach((opt, idx) => opts.appendChild(createBtn(opt, () => check(idx, q.c, n))));
-            }
-        }
-
-        function createBtn(text, onClick) {
-            const b = document.createElement('button');
-            b.className = "quiz-option";
-            b.innerText = text;
-            b.onclick = function() { onClick.call(this); };
+        function createOpt(txt, isC, n) {
+            const b = document.createElement('button'); b.className = "quiz-option"; b.innerText = txt;
+            b.onclick = () => {
+                if(isC) { b.classList.add('correct'); qScore++; } else b.classList.add('wrong');
+                setTimeout(() => {
+                    qIdx++; if(qIdx < db[n].q.length) renderQ(n); else finishQuiz(n);
+                }, 1000);
+            };
             return b;
         }
-
-        function check(ans, corr, n) {
-            const btns = document.querySelectorAll('.quiz-option');
-            btns.forEach(b => b.onclick = null);
-            
-            const isCorrect = (ans === corr);
-            event.target.classList.add(isCorrect ? 'correct' : 'wrong');
-            
-            document.getElementById('quiz-res').innerText = isCorrect ? "✅ Дұрыс!" : "❌ Қате!";
-            document.getElementById('quiz-res').style.color = isCorrect ? "green" : "red";
-            
-            if (isCorrect) score++;
-
-            if (currentQuizIndex < db[n].q.length - 1) {
-                setTimeout(() => {
-                    const nextBtn = document.createElement('button');
-                    nextBtn.className = "btn";
-                    nextBtn.style.marginTop = "10px";
-                    nextBtn.innerText = "Келесі >>";
-                    nextBtn.onclick = () => { currentQuizIndex++; renderQuestion(n); };
-                    document.getElementById('quiz-options').appendChild(nextBtn);
-                }, 600);
-            } else {
-                setTimeout(() => finishQuiz(n), 1000);
-            }
-        }
-
         function finishQuiz(n) {
-            const total = db[n].q.length;
-            const percent = Math.round((score / total) * 100);
-            
-            let allProgress = JSON.parse(localStorage.getItem('abai_global_progress') || "{}");
-            if (!allProgress[currentUser]) allProgress[currentUser] = {};
-            if (score > (allProgress[currentUser][n] || 0)) {
-                allProgress[currentUser][n] = score;
-                localStorage.setItem('abai_global_progress', JSON.stringify(allProgress));
-            }
-            updateProgressUI();
-
-            let msg = percent === 100 ? "Керемет!" : (percent >= 70 ? "Жақсы!" : "Дайындал!");
-            document.getElementById('quiz-active-area').innerHTML = `
-                <div style="text-align:center;">
-                    <h3>ТЕСТ АЯҚТАЛДЫ</h3>
-                    <div class="score-circle">${score}/${total}<div style="font-size:0.8rem">${percent}%</div></div>
-                    <div style="font-size:1.2rem; margin-bottom:10px;">${msg}</div>
-                    <button class="btn" onclick="loadQuiz(${n})">Қайта тапсыру</button>
-                </div>`;
+            const total = db[n].q.length; const per = Math.round(qScore/total*100);
+            set(ref(dbRT, `progress/${currentUser}/${n}`), qScore);
+            document.getElementById('quiz-active-area').innerHTML = `<div class="score-circle">${per}%</div><h3>Нәтиже: ${qScore}/${total}</h3><button class="btn" onclick="loadQuiz(${n})">Қайта тапсыру</button>`;
         }
 
-        function updateProgressUI() {
-            if (!currentUser) return;
-            let allProgress = JSON.parse(localStorage.getItem('abai_global_progress') || "{}");
-            let myProgress = allProgress[currentUser] || {};
-            let count = Object.keys(myProgress).length;
-            
-            document.getElementById('global-progress').style.width = (count / 45 * 100) + "%";
-            document.getElementById('progress-text').innerText = `${count} / 45 сөз`;
-            
-            const s = document.getElementById('quiz-select');
-            for(let i=0; i<s.options.length; i++) {
-                if(myProgress[s.options[i].value] && !s.options[i].text.includes("✅")) s.options[i].text += " ✅";
-            }
+        // ПРОГРЕСС
+        function loadProgress() {
+            onValue(ref(dbRT, `progress/${currentUser}`), (s) => {
+                const data = s.val() || {}; const count = Object.keys(data).length;
+                document.getElementById('global-progress').style.width = (count/45*100) + "%";
+                document.getElementById('progress-text').innerText = count + "/45 сөз";
+            });
         }
 
-        // --- ПІКІРЛЕР (АДМИН ЖАУАБЫМЕН) ---
-        function sendReview() {
+        // ПІКІРЛЕР
+        window.sendReview = () => {
             const txt = document.getElementById('review-input').value.trim();
             if(!txt) return;
-            
-            let reviews = JSON.parse(localStorage.getItem('abai_reviews_v2') || "[]");
-            reviews.unshift({
-                id: Date.now(),
-                user: currentUser,
-                text: txt,
-                date: new Date().toLocaleString(),
-                reply: null
-            });
-            localStorage.setItem('abai_reviews_v2', JSON.stringify(reviews));
+            push(ref(dbRT, 'reviews'), { user: currentUser, text: txt, date: new Date().toLocaleString(), reply: null });
             document.getElementById('review-input').value = "";
-            renderReviews();
+        };
+        function listenReviews() {
+            onValue(ref(dbRT, 'reviews'), (s) => {
+                const data = s.val(); const list = document.getElementById('reviews-list');
+                if(!data) { list.innerHTML = "Пікірлер жоқ"; return; }
+                list.innerHTML = Object.entries(data).reverse().map(([id, r]) => `
+                    <div class="review-card">
+                        <b>${r.user}</b> <small>${r.date}</small><div>${r.text}</div>
+                        ${r.reply ? `<div class="admin-reply-box"><b>Админ:</b> ${r.reply}</div>` : ''}
+                        ${isAdmin && !r.reply ? `<input type="text" id="rep-${id}" placeholder="Жауап..."><button onclick="reply('${id}')">Жіберу</button>` : ''}
+                    </div>`).join('');
+            });
         }
+        window.reply = (id) => {
+            const txt = document.getElementById('rep-'+id).value;
+            update(ref(dbRT, 'reviews/'+id), { reply: txt });
+        };
 
-        function renderReviews() {
-            const list = document.getElementById('reviews-list');
-            const reviews = JSON.parse(localStorage.getItem('abai_reviews_v2') || "[]");
-            
-            if(reviews.length === 0) { list.innerHTML = "<p style='text-align:center; color:#888;'>Пікірлер жоқ.</p>"; return; }
-
-            list.innerHTML = reviews.map(r => `
-                <div class="review-card">
-                    <div class="review-header">
-                        <span class="review-user">${r.user}</span>
-                        <span>${r.date}</span>
-                    </div>
-                    <div>${r.text}</div>
-                    
-                    ${r.reply ? `
-                        <div class="admin-reply-box">
-                            <span class="admin-label">Админ жауабы (Учитель):</span>
-                            ${r.reply}
-                        </div>
-                    ` : ''}
-
-                    ${isAdmin && !r.reply ? `
-                        <div class="reply-input-area" id="reply-area-${r.id}">
-                            <input type="text" id="input-${r.id}" placeholder="Жауап жазу...">
-                            <button class="reply-btn" onclick="submitReply(${r.id})">Жіберу</button>
-                        </div>
-                    ` : ''}
-                </div>
-            `).join('');
+        // БАСТАПҚЫ ОРНАТУЛАР
+        const s1 = document.getElementById('soz-select'), s2 = document.getElementById('comic-select'), s3 = document.getElementById('quiz-select');
+        [s1, s2, s3].forEach(s => s.add(new Option("--- Таңдаңыз ---", "")));
+        for(let i=1; i<=45; i++) {
+            s1.add(new Option(i + "-ші қара сөз", i));
+            s2.add(new Option(i + "-ші комикс", i));
+            s3.add(new Option(i + "-ші тест", i));
         }
-
-        function submitReply(reviewId) {
-            const replyText = document.getElementById(`input-${reviewId}`).value.trim();
-            if(!replyText) return;
-
-            let reviews = JSON.parse(localStorage.getItem('abai_reviews_v2') || "[]");
-            const index = reviews.findIndex(r => r.id === reviewId);
-            if (index !== -1) {
-                reviews[index].reply = replyText;
-                localStorage.setItem('abai_reviews_v2', JSON.stringify(reviews));
-                renderReviews();
-            }
-        }
+        let txtIdx = 0; const msg = "Абай әлеміне қош келдіңіз!";
+        function type() { if(txtIdx < msg.length) { document.getElementById('type-text').innerHTML += msg[txtIdx++]; setTimeout(type, 50); } else document.getElementById('start-btn').style.display='block'; }
+        type();
     </script>
 </body>
 </html>
