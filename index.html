@@ -8,27 +8,19 @@
     <style>
         :root { --gold: #d4af37; --brown: #2c1e10; --white: #ffffff; }
 
-        /* --- ФОНДЫҚ СУРЕТ ОРНАТУ --- */
-        body, html { 
-            margin: 0; 
-            padding: 0; 
-            height: 100%; 
-            font-family: 'Montserrat', sans-serif; 
-            overflow-x: hidden; 
-            /* Суреттің аты image.png болуы керек */
-            background: url('image.png') no-repeat center center fixed; 
-            background-size: cover;
-        }
-        
+        body, html { margin: 0; padding: 0; height: 100%; font-family: 'Montserrat', sans-serif; overflow-x: hidden; }
         .hidden { display: none !important; }
 
-        /* Фонның үстіндегі жеңіл қараңғылау қабаты */
+        /* --- ФОНДЫҚ ВИДЕО --- */
+        #bg-video-container {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -3; overflow: hidden;
+        }
+        #bg-video { width: 100%; height: 100%; object-fit: cover; }
         .bg-overlay {
-            position: fixed; 
-            top: 0; left: 0; 
-            width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.45); 
-            z-index: -2;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.45); z-index: -2;
         }
 
         /* --- ЭКРАНДАР --- */
@@ -56,24 +48,34 @@
         nav a { color: rgba(255,255,255,0.8); text-decoration: none; padding: 8px 15px; cursor: pointer; border-radius: 5px; transition: 0.3s; font-weight: 600; }
         nav a:hover, nav a.active { background: var(--gold); color: var(--brown); }
 
-        /* --- КОНТЕНТ --- */
+        /* --- ТЕСТ СТИЛЬДЕРІ (ОСЫ ЖЕР МАҢЫЗДЫ) --- */
         .content { max-width: 800px; margin: 30px auto; padding: 30px; display: none; }
         .content.active { display: block; animation: fadeIn 0.5s ease; }
 
         .quiz-option {
-            background: #f8f9fa; border: 2px solid #eee; padding: 15px 20px; margin: 12px 0;
-            border-radius: 12px; cursor: pointer; transition: 0.2s; text-align: left;
-            font-weight: 600; color: var(--brown);
+            background: #f8f9fa;
+            border: 2px solid #eee;
+            padding: 15px 20px;
+            margin: 12px 0;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: 0.2s;
+            text-align: left;
+            font-weight: 600;
+            color: var(--brown);
         }
         .quiz-option:hover { border-color: var(--gold); background: #fffdf5; }
         .quiz-option.correct { background: #d4edda !important; border-color: #28a745 !important; color: #155724; }
         .quiz-option.wrong { background: #f8d7da !important; border-color: #dc3545 !important; color: #721c24; }
 
         .score-circle {
-            width: 120px; height: 120px; border: 6px solid var(--gold); border-radius: 50%;
+            width: 120px; height: 120px;
+            border: 6px solid var(--gold);
+            border-radius: 50%;
             display: flex; align-items: center; justify-content: center;
             font-size: 2.2rem; font-weight: bold; margin: 20px auto;
-            color: var(--brown); background: white; box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            color: var(--brown); background: white;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
 
         .video-player-container { background: #000; border-radius: 15px; overflow: hidden; margin-bottom: 20px; }
@@ -89,6 +91,11 @@
 </head>
 <body>
 
+    <div id="bg-video-container">
+        <video id="bg-video" autoplay muted loop playsinline>
+            <source src="Абай_Құнанбаев_в_степи_с_книгой.mp4" type="video/mp4">
+        </video>
+    </div>
     <div class="bg-overlay"></div>
 
     <div id="intro-screen" class="screen">
@@ -134,7 +141,7 @@
             <a onclick="tab(0)" class="nav-link active">Қара сөздер</a>
             <a onclick="tab(1)" class="nav-link">Комикстер</a>
             <a onclick="tab(2)" class="nav-link">Тесттер</a>
-            <a onclick="tab(3)" class="nav-link">Пікірлер(Online)</a>
+            <a onclick="tab(3)" class="nav-link">Талқылау</a>
         </nav>
 
         <main>
@@ -189,6 +196,7 @@
         let currentUser = null;
         let isAdmin = false;
 
+        // --- UI ---
         window.goToAuth = () => { document.getElementById('intro-screen').classList.add('hidden'); document.getElementById('auth-screen').classList.remove('hidden'); };
         window.toggleAuth = (m) => { document.getElementById('login-form').classList.toggle('hidden', m==='register'); document.getElementById('register-form').classList.toggle('hidden', m==='login'); };
         window.tab = (n) => { 
@@ -197,6 +205,7 @@
         };
         window.move = (dir, id) => { let s = document.getElementById(id); let n = s.selectedIndex + dir; if(n >= 1 && n < s.options.length) { s.selectedIndex = n; s.dispatchEvent(new Event('change')); } };
 
+        // --- AUTH ---
         window.handleLogin = () => {
             const u = document.getElementById('login-username').value.trim();
             const p = document.getElementById('login-password').value.trim();
@@ -221,33 +230,69 @@
         }
         window.logout = () => location.reload();
 
+        // --- ТЕСТ ЖӨНДЕЛГЕН ЛОГИКА ---
+        let qIdx = 0, qScore = 0;
         window.loadQuiz = (n) => {
             if(!n) return; qIdx = 0; qScore = 0;
             document.getElementById('quiz-container').classList.remove('hidden');
             renderQ(n);
         };
 
-        let qIdx = 0, qScore = 0;
         function renderQ(n) {
-            const quiz = db[n]; const q = quiz.q[qIdx];
-            document.getElementById('quiz-active-area').innerHTML = `<h3>Сұрақ ${qIdx+1}/${quiz.q.length}</h3><p style="font-size:1.3rem; font-weight:600;">${q.q}</p><div id="opts"></div>`;
+            const quiz = db[n]; 
+            const q = quiz.q[qIdx];
+            document.getElementById('quiz-active-area').innerHTML = `
+                <h3 style="color:var(--gold); margin-bottom:10px;">Сұрақ ${qIdx+1}/${quiz.q.length}</h3>
+                <p style="font-size:1.3rem; font-weight:600; margin-bottom:25px;">${q.q}</p>
+                <div id="opts"></div>`;
+            
             const area = document.getElementById('opts');
-            (quiz.type === "yesno" ? ["Иә", "Жоқ"] : q.o).forEach((txt, i) => {
-                const opt = document.createElement('div'); opt.className = "quiz-option"; opt.innerText = txt;
-                opt.onclick = () => {
-                    const isC = quiz.type === "yesno" ? (txt === q.c) : (i === q.c);
-                    if(isC) { opt.classList.add('correct'); qScore++; } else opt.classList.add('wrong');
-                    setTimeout(() => { qIdx++; if(qIdx < db[n].q.length) renderQ(n); else finishQuiz(n); }, 600);
-                };
-                area.appendChild(opt);
+            const options = quiz.type === "yesno" ? ["Иә", "Жоқ"] : q.o;
+            
+            options.forEach((txt, i) => {
+                const isCorrect = quiz.type === "yesno" ? (txt === q.c) : (i === q.c);
+                const optElement = document.createElement('div');
+                optElement.className = "quiz-option";
+                optElement.innerText = txt;
+                optElement.onclick = () => checkAnswer(optElement, isCorrect, n);
+                area.appendChild(optElement);
             });
         }
-        function finishQuiz(n) {
-            const total = db[n].q.length; const percentage = Math.round((qScore / total) * 100);
-            set(ref(dbRT, `progress/${currentUser}/${n}`), qScore);
-            document.getElementById('quiz-active-area').innerHTML = `<div class="score-circle">${percentage}%</div><button class="btn" onclick="loadQuiz(${n})">Қайталау</button>`;
+
+        function checkAnswer(el, isCorrect, n) {
+            // Басқа батырмаларды басуға болмайтын қылу
+            const allOpts = document.querySelectorAll('.quiz-option');
+            allOpts.forEach(opt => opt.style.pointerEvents = 'none');
+
+            if(isCorrect) {
+                el.classList.add('correct');
+                qScore++;
+            } else {
+                el.classList.add('wrong');
+            }
+
+            setTimeout(() => {
+                qIdx++;
+                if(qIdx < db[n].q.length) renderQ(n);
+                else finishQuiz(n);
+            }, 800);
         }
 
+        function finishQuiz(n) {
+            const total = db[n].q.length;
+            const percentage = Math.round((qScore / total) * 100);
+            set(ref(dbRT, `progress/${currentUser}/${n}`), qScore);
+            
+            document.getElementById('quiz-active-area').innerHTML = `
+                <div style="text-align:center; padding:20px;">
+                    <h2 style="color:var(--gold); margin-bottom:10px;">Тест аяқталды!</h2>
+                    <div class="score-circle">${percentage}%</div>
+                    <p style="font-size:1.2rem; font-weight:bold;">Нәтиже: ${qScore} / ${total}</p>
+                    <button class="btn" style="width:200px; margin-top:20px;" onclick="loadQuiz(${n})">Қайталау</button>
+                </div>`;
+        }
+
+        // --- БАСҚА ФУНКЦИЯЛАР ---
         window.loadContent = (n) => {
             if(!n) return;
             document.getElementById('soz-view').innerHTML = `
@@ -272,7 +317,7 @@
         window.sendReview = () => {
             const txt = document.getElementById('review-input').value.trim();
             if(!txt) return;
-            push(ref(dbRT, 'reviews'), { user: currentUser, text: txt, date: new Date().toLocaleString() });
+            push(ref(dbRT, 'reviews'), { user: currentUser, text: txt, date: new Date().toLocaleString(), reply: null });
             document.getElementById('review-input').value = "";
         };
 
@@ -281,12 +326,20 @@
                 const data = s.val(); const list = document.getElementById('reviews-list');
                 if(!data) return;
                 list.innerHTML = Object.entries(data).reverse().map(([id, r]) => `
-                    <div class="review-card"><b>${r.user}</b> <small style="opacity:0.5">${r.date}</small><p>${r.text}</p></div>`).join('');
+                    <div class="review-card">
+                        <b>${r.user}</b> <small style="opacity:0.5">${r.date}</small>
+                        <p>${r.text}</p>
+                        ${r.reply ? `<div style="background:#f0f7ff; padding:10px; border-radius:8px; margin-top:10px; border-left:3px solid #2196F3;"><b>Жауап:</b> ${r.reply}</div>` : ''}
+                    </div>`).join('');
             });
         }
 
+        // --- INIT ---
         const s1 = document.getElementById('soz-select'), s2 = document.getElementById('comic-select'), s3 = document.getElementById('quiz-select');
-        [s1, s2, s3].forEach(s => { s.add(new Option("--- Таңдаңыз ---", "")); for(let i=1; i<=45; i++) s.add(new Option(i + "-ші қара сөз", i)); });
+        [s1, s2, s3].forEach(s => {
+            s.add(new Option("--- Таңдаңыз ---", ""));
+            for(let i=1; i<=45; i++) s.add(new Option(i + "-ші қара сөз", i));
+        });
 
         let tIdx = 0; const msg = "Абай әлеміне қош келдіңіз. Кең даланың даналығын бірге таниық...";
         function type() { if(tIdx < msg.length) { document.getElementById('type-text').innerHTML += msg.charAt(tIdx++); setTimeout(type, 50); } else document.getElementById('start-btn').style.display='block'; }
